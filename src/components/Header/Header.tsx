@@ -1,13 +1,18 @@
 import React from "react";
+import Link from "next/link";
 import S from "./styles";
 
 function Header() {
   return (
     <S.Wrapper>
-      <S.Title>Mebium</S.Title>
+      <Link href={"/"}>
+        <S.Title>Mebium</S.Title>
+      </Link>
       <S.LinkWrapper>
         <S.Link>Sign in</S.Link>
-        <S.Link>Sign up</S.Link>
+        <Link href={"/signup"} as={"/user/signup"}>
+          <S.Link>Sign up</S.Link>
+        </Link>
       </S.LinkWrapper>
     </S.Wrapper>
   );

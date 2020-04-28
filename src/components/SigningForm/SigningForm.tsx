@@ -11,7 +11,7 @@ export default function SigningForm() {
   const {
     inputValue: { username, email, password },
     handleChange,
-  } = useInput({});
+  } = useInput({ username: "", email: "", password: "" });
 
   const [isAllValid] = useValidation({ username, email, password });
 

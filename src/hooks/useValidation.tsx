@@ -33,17 +33,14 @@ export default function useValidation({
   const setValid = (property: string) => {
     setStatus({ [property]: { isValid: true } });
   };
+  const setInValid = (property: string) => {
+    setStatus({ [property]: { isValid: false } });
+  };
 
   const checkValidation = ({ username, email, password }: Values) => {
-    if (isUsernameValid(username)) {
-      setValid("username");
-    }
-    if (isEmailValid(email)) {
-      setValid("email");
-    }
-    if (isPasswordValid(password)) {
-      setValid("password");
-    }
+    isEmailValid(email) ? setValid("email") : setInValid("email");
+    isUsernameValid(username) ? setValid("username") : setInValid("username");
+    isPasswordValid(password) ? setValid("password") : setInValid("password");
   };
 
   useEffect(() => {
@@ -66,13 +63,13 @@ function createInitialStatus<T>(param: T): any {
 }
 
 const isUsernameValid = (username: string) => {
-  return USERNAME_REGEXP.test(username);
+  return USERNAME_REGEXP.test(username) && !/\s/.test(username);
 };
 
 const isEmailValid = (email: string) => {
-  return EMAIL_REGEXP.test(email);
+  return EMAIL_REGEXP.test(email) && !/\s/.test(email);
 };
 
 const isPasswordValid = (password: string) => {
-  return PASSWORD_REGEXP.test(password);
+  return PASSWORD_REGEXP.test(password) && !/\s/.test(password);
 };

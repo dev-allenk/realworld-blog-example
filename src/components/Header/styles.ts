@@ -13,7 +13,7 @@ const Wrapper = styled.header`
   border-bottom: 1px solid ${GREY_3};
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   margin: 0;
   padding: 8px 16px;
   color: ${MAIN_BLUE};

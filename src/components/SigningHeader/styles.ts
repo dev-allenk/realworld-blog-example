@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { MAIN_BLUE } from "../../constants/colors";
+import Flex from "../Layout/Flex";
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
+const Wrapper = Flex.VerticalCenter;
 
 const Link = styled.a`
   color: ${MAIN_BLUE};
@@ -16,4 +12,4 @@ const Link = styled.a`
   }
 `;
 
-export default { Wrapper, Link };
+export default { Link, Wrapper };

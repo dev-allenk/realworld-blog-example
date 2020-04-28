@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import S from "./styles";
 
-export default function SigningPageHeader() {
+export default function SigningHeader() {
   const router = useRouter();
   const isSignupPage = router.pathname.includes("signup");
 

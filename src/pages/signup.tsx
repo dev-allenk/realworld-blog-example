@@ -1,10 +1,10 @@
 import React from "react";
-import SigningPageHeader from "../components/SigningPageHeader";
+import SigningHeader from "../components/SigningHeader";
 
 export default function signup() {
   return (
     <div>
-      <SigningPageHeader />
+      <SigningHeader />
     </div>
   );
 }

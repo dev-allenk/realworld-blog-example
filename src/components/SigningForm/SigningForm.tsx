@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import S from "./styles";
 import useInput from "../../hooks/useInput";
+import useValidation from "../../hooks/useValidation";
 
 export default function SigningForm() {
   const router = useRouter();
@@ -12,12 +13,14 @@ export default function SigningForm() {
     handleChange,
   } = useInput({});
 
+  const [isAllValid] = useValidation({ username, email, password });
+
   return (
     <S.Wrapper>
       <S.Input
         name={"username"}
         value={username}
-        placeholder={"Username"}
+        placeholder={"Username (영문, 숫자, 언더바, 하이픈 조합 4~15자)"}
         onChange={handleChange}
       />
       <S.Input
@@ -29,11 +32,16 @@ export default function SigningForm() {
       <S.Input
         name={"password"}
         value={password}
-        placeholder={"Password"}
+        placeholder={"Password (영문, 숫자 조합 8~20자)"}
         onChange={handleChange}
       />
       <S.ButtonWrapper>
-        <S.Button>{isSignupPage ? "Sign up" : "Sign in"}</S.Button>
+        <S.Button
+          disabled={!isAllValid()}
+          onClick={() => console.log("submit")}
+        >
+          {isSignupPage ? "Sign up" : "Sign in"}
+        </S.Button>
       </S.ButtonWrapper>
     </S.Wrapper>
   );

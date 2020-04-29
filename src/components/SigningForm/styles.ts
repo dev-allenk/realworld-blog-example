@@ -6,14 +6,22 @@ const Wrapper = styled(Flex.VerticalCenter)`
   padding: 16px;
 `;
 
-const Input = styled.input`
+interface Validity {
+  isValid: boolean;
+  isEmpty: boolean;
+}
+const Input = styled.input<Validity>`
+  position: relative;
   margin: 8px 0;
   padding: 0 16px;
   width: 90%;
   height: 42px;
   border: 1px solid ${GREY_4};
   border-radius: 5px;
+  box-shadow: ${({ isEmpty, isValid }) =>
+    isEmpty || isValid ? "none" : "0 0 0 4px red"};
 `;
+
 const Button = styled.button`
   margin: 8px;
   margin-right: 4px;

@@ -13,7 +13,7 @@ export default function SigningForm() {
     handleChange,
   } = useInput({ username: "", email: "", password: "" });
 
-  const [isAllValid] = useValidation({ username, email, password });
+  const [status, isAllValid] = useValidation({ username, email, password });
 
   return (
     <S.Wrapper>
@@ -22,18 +22,24 @@ export default function SigningForm() {
         value={username}
         placeholder={"Username (영문, 숫자, 언더바, 하이픈 조합 4~15자)"}
         onChange={handleChange}
+        isValid={status.username.isValid}
+        isEmpty={status.username.isEmpty}
       />
       <S.Input
         name={"email"}
         value={email}
         placeholder={"Email"}
         onChange={handleChange}
+        isValid={status.email.isValid}
+        isEmpty={status.email.isEmpty}
       />
       <S.Input
         name={"password"}
         value={password}
         placeholder={"Password (영문, 숫자 조합 8~20자)"}
         onChange={handleChange}
+        isValid={status.password.isValid}
+        isEmpty={status.password.isEmpty}
       />
       <S.ButtonWrapper>
         <S.Button

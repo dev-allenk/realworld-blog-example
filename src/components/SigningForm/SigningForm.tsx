@@ -4,29 +4,31 @@ import S from "./styles";
 import useInput from "../../hooks/useInput";
 import useValidation from "../../hooks/useValidation";
 import useFetch from "../../hooks/useFetch";
-import api from "../../api";
+import api, { UserSignup, UserSignin } from "../../api";
 
-interface UserSignup {
-  user: { username: string; email: string; password: string };
-}
+const SIGNUP_VALUES = { username: "", email: "", password: "" };
+const SIGNIN_VALUES = { email: "", password: "" };
 
 export default function SigningForm() {
   const router = useRouter();
   const isSignupPage = router.pathname.includes("signup");
 
-  const {
-    inputValue: { username, email, password },
-    handleChange,
-  } = useInput({ username: "", email: "", password: "" });
+  const { inputValue, handleChange } = useInput(
+    isSignupPage ? SIGNUP_VALUES : SIGNIN_VALUES
+  );
+  const { username, email, password } = inputValue;
 
-  const [status, isAllValid] = useValidation({ username, email, password });
+  const [status, isAllValid] = useValidation(inputValue);
 
-  const onRequest = (value: UserSignup) => {
-    return api.signup(value);
+  const onRequest = (value: UserSignup | UserSignin) => {
+    return isSignupPage
+      ? api.signup(value as UserSignup)
+      : api.signin(value as UserSignin);
   };
 
   const { request } = useFetch({
     onRequest,
+    onSuccess: () => router.push("/"),
   });
 
   return (
@@ -60,7 +62,11 @@ export default function SigningForm() {
       <S.ButtonWrapper>
         <S.Button
           disabled={!isAllValid()}
-          onClick={() => request({ user: { username, email, password } })}
+          onClick={() =>
+            isSignupPage
+              ? request({ user: { username, email, password } })
+              : request({ user: { email, password } })
+          }
         >
           {isSignupPage ? "Sign up" : "Sign in"}
         </S.Button>

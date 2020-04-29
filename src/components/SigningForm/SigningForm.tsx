@@ -3,6 +3,12 @@ import { useRouter } from "next/router";
 import S from "./styles";
 import useInput from "../../hooks/useInput";
 import useValidation from "../../hooks/useValidation";
+import useFetch from "../../hooks/useFetch";
+import api from "../../api";
+
+interface UserSignup {
+  user: { username: string; email: string; password: string };
+}
 
 export default function SigningForm() {
   const router = useRouter();
@@ -14,6 +20,14 @@ export default function SigningForm() {
   } = useInput({ username: "", email: "", password: "" });
 
   const [status, isAllValid] = useValidation({ username, email, password });
+
+  const onRequest = (value: UserSignup) => {
+    return api.signup(value);
+  };
+
+  const { request } = useFetch({
+    onRequest,
+  });
 
   return (
     <S.Wrapper>
@@ -44,7 +58,7 @@ export default function SigningForm() {
       <S.ButtonWrapper>
         <S.Button
           disabled={!isAllValid()}
-          onClick={() => console.log("submit")}
+          onClick={() => request({ user: { username, email, password } })}
         >
           {isSignupPage ? "Sign up" : "Sign in"}
         </S.Button>

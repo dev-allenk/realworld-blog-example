@@ -31,14 +31,16 @@ export default function SigningForm() {
 
   return (
     <S.Wrapper>
-      <S.Input
-        name={"username"}
-        value={username}
-        placeholder={"Username (영문, 숫자, 언더바, 하이픈 조합 4~15자)"}
-        onChange={handleChange}
-        isValid={status.username.isValid}
-        isEmpty={status.username.isEmpty}
-      />
+      {isSignupPage && (
+        <S.Input
+          name={"username"}
+          value={username}
+          placeholder={"Username (영문, 숫자, 언더바, 하이픈 조합 4~15자)"}
+          onChange={handleChange}
+          isValid={status.username.isValid}
+          isEmpty={status.username.isEmpty}
+        />
+      )}
       <S.Input
         name={"email"}
         value={email}

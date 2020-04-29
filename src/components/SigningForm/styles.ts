@@ -2,14 +2,15 @@ import styled from "styled-components";
 import Flex from "../Layout/Flex";
 import { MAIN_BLUE, GREY_4, MAIN_BLUE_DARK } from "../../constants/colors";
 
-const Wrapper = styled(Flex.VerticalCenter)`
-  padding: 16px;
-`;
-
 interface Validity {
   isValid: boolean;
   isEmpty: boolean;
 }
+
+const Wrapper = styled(Flex.VerticalCenter)`
+  padding: 16px;
+`;
+
 const Input = styled.input<Validity>`
   position: relative;
   margin: 8px 0;
@@ -30,7 +31,7 @@ const Button = styled.button`
   color: #fff;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   &:hover {
     background-color: ${MAIN_BLUE_DARK};
   }

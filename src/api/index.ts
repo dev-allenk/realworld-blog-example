@@ -16,19 +16,19 @@ const request = async (method: string, URI: string, options?: object) => {
   return await fetch(`${API_ENDPOINT}${URI}`, { method, ...options });
 };
 
-export interface UserSignup {
+export interface RegisterPayload {
   user: { username: string; email: string; password: string };
 }
-export interface UserSignin {
+export interface LoginPayload {
   user: { email: string; password: string };
 }
-const userApi = {
-  signup(value: UserSignup) {
+const authApi = {
+  register(value: RegisterPayload) {
     return request(POST, "/users", BODY(value));
   },
-  signin(value: UserSignin) {
+  login(value: LoginPayload) {
     return request(POST, "/users/login", BODY(value));
   },
 };
 
-export default { ...userApi };
+export default { ...authApi };

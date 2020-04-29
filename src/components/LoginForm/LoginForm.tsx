@@ -4,26 +4,26 @@ import S from "./styles";
 import useInput from "../../hooks/useInput";
 import useValidation from "../../hooks/useValidation";
 import useFetch from "../../hooks/useFetch";
-import api, { UserSignup, UserSignin } from "../../api";
+import api, { RegisterPayload, LoginPayload } from "../../api";
 
-const SIGNUP_VALUES = { username: "", email: "", password: "" };
-const SIGNIN_VALUES = { email: "", password: "" };
+const REGISTER_VALUES = { username: "", email: "", password: "" };
+const LOGIN_VALUES = { email: "", password: "" };
 
-export default function SigningForm() {
+export default function LoginForm() {
   const router = useRouter();
-  const isSignupPage = router.pathname.includes("signup");
+  const isLoginPage = router.pathname.includes("login");
 
   const { inputValue, handleChange } = useInput(
-    isSignupPage ? SIGNUP_VALUES : SIGNIN_VALUES
+    isLoginPage ? LOGIN_VALUES : REGISTER_VALUES
   );
   const { username, email, password } = inputValue;
 
   const [status, isAllValid] = useValidation(inputValue);
 
-  const onRequest = (value: UserSignup | UserSignin) => {
-    return isSignupPage
-      ? api.signup(value as UserSignup)
-      : api.signin(value as UserSignin);
+  const onRequest = (value: RegisterPayload | LoginPayload) => {
+    return isLoginPage
+      ? api.register(value as RegisterPayload)
+      : api.login(value as LoginPayload);
   };
 
   const { request } = useFetch({
@@ -33,7 +33,7 @@ export default function SigningForm() {
 
   return (
     <S.Wrapper>
-      {isSignupPage && (
+      {!isLoginPage && (
         <S.Input
           name={"username"}
           value={username}
@@ -63,12 +63,12 @@ export default function SigningForm() {
         <S.Button
           disabled={!isAllValid()}
           onClick={() =>
-            isSignupPage
-              ? request({ user: { username, email, password } })
-              : request({ user: { email, password } })
+            isLoginPage
+              ? request({ user: { email, password } })
+              : request({ user: { username, email, password } })
           }
         >
-          {isSignupPage ? "Sign up" : "Sign in"}
+          {isLoginPage ? "Sign in" : "Sign up"}
         </S.Button>
       </S.ButtonWrapper>
     </S.Wrapper>

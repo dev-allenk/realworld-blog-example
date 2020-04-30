@@ -9,10 +9,10 @@ function Header() {
         <S.Title>Mebium</S.Title>
       </Link>
       <S.LinkWrapper>
-        <Link href={"/login"} as={"/user/login"}>
+        <Link href={"/user/login"}>
           <S.Link>Sign in</S.Link>
         </Link>
-        <Link href={"/register"} as={"/user/register"}>
+        <Link href={"/user/register"}>
           <S.Link>Sign up</S.Link>
         </Link>
       </S.LinkWrapper>

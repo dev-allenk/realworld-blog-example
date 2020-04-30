@@ -8,6 +8,7 @@ import {
 } from "../modules/auth";
 import { take, call, put } from "redux-saga/effects";
 import api, { LoginPayload, RegisterPayload } from "../api";
+import session from "./session";
 
 function* register(payload: RegisterPayload) {
   try {
@@ -19,14 +20,16 @@ function* register(payload: RegisterPayload) {
     yield put(registerSuccess(user));
     return user;
   } catch (error) {
-    console.log(error, error.message);
     yield put(registerFailure());
   }
 }
 export function* registerFlow() {
   while (true) {
     const { payload } = yield take(REGISTER_REQUEST);
-    const { token } = yield call(register, payload);
+    const user = yield call(register, payload);
+    if (user) {
+      yield call(session.set, "token", user.token);
+    }
   }
 }
 
@@ -47,8 +50,9 @@ function* login(payload: LoginPayload) {
 export function* loginFlow() {
   while (true) {
     const { payload } = yield take(LOGIN_REQUEST);
-    const { token } = yield call(login, payload);
-    if (token) {
+    const user = yield call(login, payload);
+    if (user) {
+      yield call(session.set, "token", user.token);
     }
   }
 }

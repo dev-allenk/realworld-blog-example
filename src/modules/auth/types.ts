@@ -6,4 +6,5 @@ export type AuthAction = ActionType<typeof actions>;
 export type AuthState = {
   isLoggedIn: boolean;
   isLoading: boolean;
+  username: string;
 };

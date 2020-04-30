@@ -20,6 +20,7 @@ function* register(payload: RegisterPayload) {
     yield put(registerSuccess(user));
     return user;
   } catch (error) {
+    console.warn(error);
     yield put(registerFailure());
   }
 }
@@ -40,9 +41,11 @@ function* login(payload: LoginPayload) {
       throw Error(yield response.json().errors); //TODO: errors객체 내용에 따라 화면에 에러 상황 출력
     }
     const { user } = yield response.json();
+    console.log(user);
     yield put(loginSuccess(user));
     return user;
   } catch (error) {
+    console.warn(error);
     yield put(loginFailure());
   }
 }

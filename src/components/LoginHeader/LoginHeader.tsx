@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import S from "./styles";
-import path from "../../constants/routingPaths";
+import path from "@constants/routingPaths";
 
 export default function LoginHeader() {
   const router = useRouter();

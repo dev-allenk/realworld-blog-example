@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import S from "./styles";
 import { useSelector } from "react-redux";
-import { RootState } from "../../modules";
+import { RootState } from "@modules";
 import LoggedOutMenus from "./LoggedOutMenus";
 import LoggedInMenus from "./LoggedInMenus";
 

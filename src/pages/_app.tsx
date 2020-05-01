@@ -1,12 +1,12 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import Header from "../components/Header";
+import Header from "@components/Header";
 
 import withRedux, { ReduxWrapperAppProps } from "next-redux-wrapper";
 import App, { AppContext } from "next/app";
 import { Provider } from "react-redux";
 import { makeStore } from "../store";
-import { RootState } from "../modules";
+import { RootState } from "@modules";
 
 const GlobalStyle = createGlobalStyle`
   body {

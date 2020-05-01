@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Flex from "../Layout/Flex";
-import { GREY_4 } from "../../constants/colors";
+import { GREY_4 } from "@constants/colors";
 
 interface Validity {
   isValid: boolean;

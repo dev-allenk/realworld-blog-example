@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MAIN_BLUE } from "../../constants/colors";
+import { MAIN_BLUE } from "@constants/colors";
 import Flex from "../Layout/Flex";
 
 const Wrapper = Flex.VerticalCenter;

@@ -2,29 +2,28 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import S from "./styles";
+import path from "../../constants/routingPaths";
 
 export default function LoginHeader() {
   const router = useRouter();
   const isLoginPage = router.pathname.includes("login");
 
-  const { title, href, hrefAs, texts } = isLoginPage
+  const { title, href, texts } = isLoginPage
     ? {
         title: "Sign In",
-        href: "/signup",
-        hrefAs: "/user/signup",
+        href: path.register,
         texts: "Need an account?",
       }
     : {
         title: "Sign Up",
-        href: "/signin",
-        hrefAs: "/user/signin",
+        href: path.login,
         texts: "Have an account?",
       };
 
   return (
     <S.Wrapper>
       <h1>{title}</h1>
-      <Link href={href} as={hrefAs}>
+      <Link href={href}>
         <S.Link>{texts}</S.Link>
       </Link>
     </S.Wrapper>

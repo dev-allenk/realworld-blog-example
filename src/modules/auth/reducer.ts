@@ -6,14 +6,15 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   username: "",
+  email: "",
 };
 
 const auth = createReducer<AuthState, AuthAction>(initialState, {
   [LOGIN_REQUEST]: (state, action) => {
     return { ...state, isLoading: true };
   },
-  [LOGIN_SUCCESS]: (state, { payload: { username } }) => {
-    return { username: username, isLoggedIn: true, isLoading: false };
+  [LOGIN_SUCCESS]: (state, { payload: { username, email } }) => {
+    return { username, email, isLoggedIn: true, isLoading: false };
   },
   [LOGIN_FAILURE]: (state, a) => {
     return { ...state, isLoggedIn: false, isLoading: false };

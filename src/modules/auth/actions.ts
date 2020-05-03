@@ -1,5 +1,4 @@
-import { RegisterPayload, LoginPayload } from "@api";
-import { IUser } from "@types";
+import { IUser, RegisterPayload, LoginPayload } from "@types";
 import { createAction } from "typesafe-actions";
 
 export const REGISTER_REQUEST = "auth/REGISTER_REQUEST" as const;

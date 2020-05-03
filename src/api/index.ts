@@ -1,3 +1,5 @@
+import { IUser, RegisterPayload, LoginPayload } from "@types";
+
 const API_ENDPOINT = "http://localhost:5000/api";
 
 const GET = "GET";
@@ -16,12 +18,13 @@ const request = async (method: string, URI: string, options?: object) => {
   return await fetch(`${API_ENDPOINT}${URI}`, { method, ...options });
 };
 
-export interface RegisterPayload {
-  user: { username: string; email: string; password: string };
-}
-export interface LoginPayload {
-  user: { email: string; password: string };
-}
+const handleResponse = async (response: Response) => {
+  const data = await response.json();
+  console.log(data);
+  if (!response.ok) throw Error(data.errors);
+  return data;
+};
+
 const authApi = {
   register(value: RegisterPayload) {
     return request(POST, "/users", BODY(value));
@@ -31,4 +34,10 @@ const authApi = {
   },
 };
 
-export default { ...authApi };
+const userApi = {
+  updateUser(userData: IUser) {
+    return request(PUT, "/user", BODY(userData));
+  },
+};
+
+export default { ...authApi, ...userApi, handleResponse };

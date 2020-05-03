@@ -7,7 +7,8 @@ import {
   registerFailure,
 } from "@modules/auth";
 import { take, call, put } from "redux-saga/effects";
-import api, { LoginPayload, RegisterPayload } from "@api";
+import api from "@api";
+import { LoginPayload, RegisterPayload } from "@types";
 import session from "./session";
 
 function* register(payload: RegisterPayload) {

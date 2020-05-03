@@ -51,7 +51,6 @@ export default function UserSettings() {
     isLoggedIn || router.push("/");
   }, [isLoggedIn]);
 
-  //TODO: 비로그인 시 메인 페이지로 리디렉션
   return (
     <S.Wrapper>
       <h1>Your Settings</h1>

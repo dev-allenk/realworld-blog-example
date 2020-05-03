@@ -1,5 +1,4 @@
 import { createReducer } from "typesafe-actions";
-import { UserState, UserAction } from "./types";
 import {
   UPDATE_REQUEST,
   UPDATE_SUCCESS,
@@ -15,7 +14,7 @@ const initialState = {
   email: "",
 };
 
-const user = createReducer<UserState, UserAction>(initialState, {
+const user = createReducer(initialState, {
   [UPDATE_REQUEST]: (state, action) => {
     return { ...state, isLoading: true };
   },

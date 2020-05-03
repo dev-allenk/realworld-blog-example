@@ -7,10 +7,23 @@ const POST = "POST";
 const PUT = "PUT";
 const DELETE = "DELETE";
 
+const options = (...params: any[]) => {
+  return params.reduce(
+    (acc, cur) => ({
+      ...acc,
+      ...cur,
+      headers: { ...acc.headers, ...cur.headers },
+    }),
+    {}
+  );
+};
+
+const TOKEN = (token: string) => ({
+  headers: { Authorization: `Token ${token}` },
+});
+
 const BODY = (value: any) => ({
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify(value),
 });
 
@@ -35,8 +48,11 @@ const authApi = {
 };
 
 const userApi = {
-  updateUser(userData: IUser) {
-    return request(PUT, "/user", BODY(userData));
+  updateUser(userData: IUser, token: string) {
+    return request(PUT, "/user", options(BODY(userData), TOKEN(token)));
+  },
+  getUser(token: string) {
+    return request(GET, "/user", TOKEN(token));
   },
 };
 

@@ -3,7 +3,7 @@ export interface IUser {
   token?: string;
   username: string;
   bio?: string;
-  image?: any;
+  image?: string;
 }
 
 export interface RegisterPayload {
@@ -11,4 +11,13 @@ export interface RegisterPayload {
 }
 export interface LoginPayload {
   user: { email: string; password: string };
+}
+export interface UserUpdatePayload {
+  user: {
+    email: string;
+    username: string;
+    password: string;
+    bio: string;
+    image: string;
+  };
 }

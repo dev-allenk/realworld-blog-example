@@ -10,11 +10,10 @@ function Tag({ children }: { children: string }) {
   );
 }
 
-const tags = ["test1", "test2", "test test", "test3", "test4", "test5"];
-export default function Tags() {
+export default function Tags({ tagList }: { tagList: string[] }) {
   return (
     <S.Wrapper>
-      {tags.map((tag) => (
+      {tagList.map((tag) => (
         <Tag key={tag}>{tag}</Tag>
       ))}
     </S.Wrapper>

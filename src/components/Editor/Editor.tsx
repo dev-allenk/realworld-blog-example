@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useReducer } from "react";
 import S from "./editorStyles";
 import Button from "@components/Button";
 import useInput from "@hooks/useInput";
 import Tags from "./Tags";
 
+function reducer(state: string[], payload: string) {
+  return [...state, payload];
+}
+
 export default function Editor() {
+  const [tagList, addTagToList] = useReducer(reducer, []);
   const { inputValue, handleChange } = useInput({});
-  const { title, subject, contents, tags } = inputValue;
+  const { title, description, body, tag } = inputValue;
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // dispatch(createArticle({article: {title, description, body, tagList}}))
+  };
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    addTagToList(tag);
+    handleChange({ name: "tag", value: "" });
   };
 
   return (
@@ -22,24 +33,25 @@ export default function Editor() {
           placeholder="Article Title"
         />
         <S.Input
-          name="subject"
-          value={subject}
+          name="description"
+          value={description}
           onChange={handleChange}
           placeholder="What's this article about?"
         />
         <S.TextArea
-          name="contents"
-          value={contents}
+          name="body"
+          value={body}
           onChange={handleChange}
           placeholder="Write your article (Markdown supported)"
         />
         <S.Input
-          name="tags"
-          value={tags}
+          name="tag"
+          value={tag}
           onChange={handleChange}
+          onKeyDown={addTag}
           placeholder="Enter tags"
         />
-        <Tags />
+        <Tags tagList={tagList} />
         <Button type="submit">Publish Article</Button>
       </form>
     </S.Wrapper>

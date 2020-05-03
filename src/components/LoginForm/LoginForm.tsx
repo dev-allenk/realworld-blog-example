@@ -11,6 +11,21 @@ import Button from "../Button";
 const REGISTER_VALUES = { username: "", email: "", password: "" };
 const LOGIN_VALUES = { email: "", password: "" };
 
+const USERNAME_REGEXP = /^[A-Za-z0-9_-]{4,15}$/;
+const PASSWORD_REGEXP = /^[A-Za-z0-9]{8,20}$/;
+const EMAIL_REGEXP = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*.[a-zA-Z]{2,3}$/;
+
+const isValid = {
+  username(username: string) {
+    return USERNAME_REGEXP.test(username) && !/\s/.test(username);
+  },
+  email(email: string) {
+    return EMAIL_REGEXP.test(email) && !/\s/.test(email);
+  },
+  password(password: string) {
+    return PASSWORD_REGEXP.test(password) && !/\s/.test(password);
+  },
+};
 export default function LoginForm() {
   const router = useRouter();
   const isLoginPage = router.pathname.includes("login");
@@ -23,7 +38,7 @@ export default function LoginForm() {
   );
   const { username, email, password } = inputValue;
 
-  const [status, isAllValid] = useValidation(inputValue);
+  const [status, isAllValid] = useValidation(inputValue, isValid);
 
   const request = () => {
     return isLoginPage

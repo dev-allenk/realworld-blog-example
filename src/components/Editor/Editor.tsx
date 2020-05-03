@@ -1,18 +1,39 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useMemo } from "react";
 import S from "./editorStyles";
 import Button from "@components/Button";
 import useInput from "@hooks/useInput";
 import Tags from "./Tags";
+import useValidation from "@hooks/useValidation";
 
 interface Action {
   type: string;
   payload: string;
 }
 
+const isValid = {
+  title(title: string) {
+    return !!title;
+  },
+  description(description: string) {
+    return !!description;
+  },
+  body(body: string) {
+    return !!body;
+  },
+};
+
 export default function Editor() {
   const [tagList, dispatchTag] = useReducer(reducer, []);
   const { inputValue, handleChange } = useInput({});
   const { title, description, body, tag } = inputValue;
+
+  const memoizedValue = useMemo(() => ({ title, description, body }), [
+    title,
+    description,
+    body,
+  ]);
+
+  const [status, isAllValid] = useValidation(memoizedValue, isValid);
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,18 +62,21 @@ export default function Editor() {
           value={title}
           onChange={handleChange}
           placeholder="Article Title"
+          {...status.title}
         />
         <S.Input
           name="description"
           value={description}
           onChange={handleChange}
           placeholder="What's this article about?"
+          {...status.description}
         />
         <S.TextArea
           name="body"
           value={body}
           onChange={handleChange}
           placeholder="Write your article (Markdown supported)"
+          {...status.body}
         />
         <S.Input
           name="tag"
@@ -60,9 +84,12 @@ export default function Editor() {
           onChange={handleChange}
           onKeyDown={addTag}
           placeholder="Enter tags"
+          isValid={true}
         />
         <Tags tagList={tagList} onClick={removeTag} />
-        <Button type="submit">Publish Article</Button>
+        <Button type="submit" disabled={!isAllValid()}>
+          Publish Article
+        </Button>
       </form>
     </S.Wrapper>
   );

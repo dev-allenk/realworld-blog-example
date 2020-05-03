@@ -1,7 +1,8 @@
 import React from "react";
-import S from "./styles";
+import S from "./editorStyles";
 import Button from "@components/Button";
 import useInput from "@hooks/useInput";
+import Tags from "./Tags";
 
 export default function Editor() {
   const { inputValue, handleChange } = useInput({});
@@ -38,6 +39,7 @@ export default function Editor() {
           onChange={handleChange}
           placeholder="Enter tags"
         />
+        <Tags />
         <Button type="submit">Publish Article</Button>
       </form>
     </S.Wrapper>

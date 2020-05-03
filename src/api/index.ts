@@ -1,3 +1,5 @@
+import { IUser, RegisterPayload, LoginPayload } from "@types";
+
 const API_ENDPOINT = "http://localhost:5000/api";
 
 const GET = "GET";
@@ -5,10 +7,23 @@ const POST = "POST";
 const PUT = "PUT";
 const DELETE = "DELETE";
 
+const options = (...params: any[]) => {
+  return params.reduce(
+    (acc, cur) => ({
+      ...acc,
+      ...cur,
+      headers: { ...acc.headers, ...cur.headers },
+    }),
+    {}
+  );
+};
+
+const TOKEN = (token: string) => ({
+  headers: { Authorization: `Token ${token}` },
+});
+
 const BODY = (value: any) => ({
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify(value),
 });
 
@@ -16,12 +31,13 @@ const request = async (method: string, URI: string, options?: object) => {
   return await fetch(`${API_ENDPOINT}${URI}`, { method, ...options });
 };
 
-export interface RegisterPayload {
-  user: { username: string; email: string; password: string };
-}
-export interface LoginPayload {
-  user: { email: string; password: string };
-}
+const handleResponse = async (response: Response) => {
+  const data = await response.json();
+  console.log(data);
+  if (!response.ok) throw Error(data.errors);
+  return data;
+};
+
 const authApi = {
   register(value: RegisterPayload) {
     return request(POST, "/users", BODY(value));
@@ -31,4 +47,13 @@ const authApi = {
   },
 };
 
-export default { ...authApi };
+const userApi = {
+  updateUser(userData: IUser, token: string) {
+    return request(PUT, "/user", options(BODY(userData), TOKEN(token)));
+  },
+  getUser(token: string) {
+    return request(GET, "/user", TOKEN(token));
+  },
+};
+
+export default { ...authApi, ...userApi, handleResponse };

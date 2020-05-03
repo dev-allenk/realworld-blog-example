@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MAIN_BLUE_DARK, MAIN_BLUE_LIGHT } from "../../constants/colors";
+import { MAIN_BLUE_DARK, MAIN_BLUE_LIGHT } from "@constants/colors";
 import Flex from "../Layout/Flex";
 
 const Background = styled(Flex.VerticalCenter)`

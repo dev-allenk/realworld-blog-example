@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import S from "./styles";
-import useInput from "../../hooks/useInput";
-import useValidation from "../../hooks/useValidation";
+import useInput from "@hooks/useInput";
+import useValidation from "@hooks/useValidation";
 import { useDispatch, useSelector } from "react-redux";
-import { registerRequest, loginRequest } from "../../modules/auth";
-import { RootState } from "../../modules";
+import { registerRequest, loginRequest } from "@modules/auth";
+import { RootState } from "@modules";
+import Button from "../Button";
 
 const REGISTER_VALUES = { username: "", email: "", password: "" };
 const LOGIN_VALUES = { email: "", password: "" };
@@ -59,11 +60,9 @@ export default function LoginForm() {
         onChange={handleChange}
         {...status.password}
       />
-      <S.ButtonWrapper>
-        <S.Button disabled={!isAllValid()} onClick={request}>
-          {isLoginPage ? "Sign in" : "Sign up"}
-        </S.Button>
-      </S.ButtonWrapper>
+      <Button disabled={!isAllValid()} onClick={request}>
+        {isLoginPage ? "Sign in" : "Sign up"}
+      </Button>
     </S.Wrapper>
   );
 }

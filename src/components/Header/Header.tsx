@@ -1,21 +1,22 @@
 import React from "react";
 import Link from "next/link";
 import S from "./styles";
+import { useSelector } from "react-redux";
+import { RootState } from "@modules";
+import LoggedOutMenus from "./LoggedOutMenus";
+import LoggedInMenus from "./LoggedInMenus";
 
 function Header() {
+  const { isLoggedIn, username } = useSelector((state: RootState) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    username: state.auth.username,
+  }));
   return (
     <S.Wrapper>
       <Link href={"/"}>
         <S.Title>Mebium</S.Title>
       </Link>
-      <S.LinkWrapper>
-        <Link href={"/login"} as={"/user/login"}>
-          <S.Link>Sign in</S.Link>
-        </Link>
-        <Link href={"/register"} as={"/user/register"}>
-          <S.Link>Sign up</S.Link>
-        </Link>
-      </S.LinkWrapper>
+      {isLoggedIn ? <LoggedInMenus username={username} /> : <LoggedOutMenus />}
     </S.Wrapper>
   );
 }

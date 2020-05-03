@@ -1,13 +1,17 @@
 import {
   LOGIN_REQUEST,
+  LOGOUT_REQUEST,
   REGISTER_REQUEST,
   loginSuccess,
   loginFailure,
+  logoutSuccess,
+  logoutFailure,
   registerSuccess,
   registerFailure,
-} from "../modules/auth";
+} from "@modules/auth";
 import { take, call, put } from "redux-saga/effects";
-import api, { LoginPayload, RegisterPayload } from "../api";
+import api from "@api";
+import { LoginPayload, RegisterPayload } from "@types";
 import session from "./session";
 
 function* register(payload: RegisterPayload) {
@@ -20,6 +24,7 @@ function* register(payload: RegisterPayload) {
     yield put(registerSuccess(user));
     return user;
   } catch (error) {
+    console.warn(error);
     yield put(registerFailure());
   }
 }
@@ -43,16 +48,28 @@ function* login(payload: LoginPayload) {
     yield put(loginSuccess(user));
     return user;
   } catch (error) {
+    console.warn(error);
     yield put(loginFailure());
   }
 }
 
+function* logout() {
+  try {
+    yield call(session.remove, "token");
+    yield put(logoutSuccess());
+  } catch (error) {
+    console.warn(error);
+    yield put(logoutFailure());
+  }
+}
 export function* loginFlow() {
   while (true) {
     const { payload } = yield take(LOGIN_REQUEST);
     const user = yield call(login, payload);
     if (user) {
       yield call(session.set, "token", user.token);
+      yield take(LOGOUT_REQUEST);
+      yield call(logout);
     }
   }
 }

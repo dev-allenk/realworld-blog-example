@@ -4,6 +4,8 @@ import Button from "@components/Button";
 import useInput from "@hooks/useInput";
 import Tags from "./Tags";
 import useValidation from "@hooks/useValidation";
+import { useDispatch } from "react-redux";
+import { createRequest } from "@modules/article";
 
 interface Action {
   type: string;
@@ -34,10 +36,11 @@ export default function Editor() {
   ]);
 
   const [status, isAllValid] = useValidation(memoizedValue, isValid);
+  const dispatch = useDispatch();
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // dispatch(createArticle({article: {title, description, body, tagList}}))
+    dispatch(createRequest({ article: { title, description, body, tagList } }));
   };
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -4,12 +4,13 @@ import Button from "@components/Button";
 import useInput from "@hooks/useInput";
 import Tags from "./Tags";
 
-function reducer(state: string[], payload: string) {
-  return [...state, payload];
+interface Action {
+  type: string;
+  payload: string;
 }
 
 export default function Editor() {
-  const [tagList, addTagToList] = useReducer(reducer, []);
+  const [tagList, dispatchTag] = useReducer(reducer, []);
   const { inputValue, handleChange } = useInput({});
   const { title, description, body, tag } = inputValue;
 
@@ -17,10 +18,19 @@ export default function Editor() {
     e.preventDefault();
     // dispatch(createArticle({article: {title, description, body, tagList}}))
   };
+
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    addTagToList(tag);
     handleChange({ name: "tag", value: "" });
+
+    if (!tag || isDuplicateTag(tagList, tag)) return;
+    dispatchTag({ type: "add", payload: tag });
+  };
+
+  const removeTag = ({
+    currentTarget,
+  }: React.SyntheticEvent<HTMLButtonElement>) => {
+    dispatchTag({ type: "remove", payload: currentTarget.dataset.idx! });
   };
 
   return (
@@ -51,9 +61,23 @@ export default function Editor() {
           onKeyDown={addTag}
           placeholder="Enter tags"
         />
-        <Tags tagList={tagList} />
+        <Tags tagList={tagList} onClick={removeTag} />
         <Button type="submit">Publish Article</Button>
       </form>
     </S.Wrapper>
   );
+}
+
+function reducer(tagList: string[], { type, payload }: Action) {
+  if (type === "add") {
+    return [...tagList, payload];
+  }
+  if (type === "remove") {
+    return tagList.filter((tag) => tag !== tagList[Number(payload)]);
+  }
+  return tagList;
+}
+
+function isDuplicateTag(tagList: string[], tag: string) {
+  return tagList.includes(tag);
 }

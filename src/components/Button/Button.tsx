@@ -5,10 +5,7 @@ export default function Button({
   children,
   disabled,
   onClick,
-}: React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->) {
+}: React.HTMLProps<HTMLButtonElement>) {
   return (
     <S.ButtonWrapper>
       <S.Button disabled={disabled} onClick={onClick}>

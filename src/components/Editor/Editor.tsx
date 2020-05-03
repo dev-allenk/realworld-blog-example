@@ -1,15 +1,45 @@
 import React from "react";
 import S from "./styles";
 import Button from "@components/Button";
+import useInput from "@hooks/useInput";
 
 export default function Editor() {
+  const { inputValue, handleChange } = useInput({});
+  const { title, subject, contents, tags } = inputValue;
+
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <S.Wrapper>
-      <S.Input placeholder="Article Title" />
-      <S.Input placeholder="What's this article about?" />
-      <S.TextArea placeholder="Write your article (Markdown supported)" />
-      <S.Input placeholder="Enter tags" />
-      <Button>Publish Article</Button>
+      <form onSubmit={submit}>
+        <S.Input
+          name="title"
+          value={title}
+          onChange={handleChange}
+          placeholder="Article Title"
+        />
+        <S.Input
+          name="subject"
+          value={subject}
+          onChange={handleChange}
+          placeholder="What's this article about?"
+        />
+        <S.TextArea
+          name="contents"
+          value={contents}
+          onChange={handleChange}
+          placeholder="Write your article (Markdown supported)"
+        />
+        <S.Input
+          name="tags"
+          value={tags}
+          onChange={handleChange}
+          placeholder="Enter tags"
+        />
+        <Button type="submit">Publish Article</Button>
+      </form>
     </S.Wrapper>
   );
 }

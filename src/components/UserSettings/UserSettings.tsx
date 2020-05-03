@@ -5,6 +5,8 @@ import useInput from "@hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateRequest, getRequest } from "@modules/user";
 import { RootState } from "@modules";
+import { logoutRequest } from "@modules/auth";
+import { useRouter } from "next/router";
 
 const initialValues = {
   image: "",
@@ -18,8 +20,12 @@ export default function UserSettings() {
   const { inputValue, handleChange, setInputValue } = useInput(initialValues);
   const { image, username, bio, email, password } = inputValue;
 
-  const user = useSelector((state: RootState) => state.user);
+  const { isLoggedIn, user } = useSelector((state: RootState) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    user: state.user,
+  }));
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const requestUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,6 +46,10 @@ export default function UserSettings() {
       email: user.email,
     });
   }, [user]);
+
+  useEffect(() => {
+    isLoggedIn || router.push("/");
+  }, [isLoggedIn]);
 
   //TODO: 비로그인 시 메인 페이지로 리디렉션
   return (
@@ -78,6 +88,9 @@ export default function UserSettings() {
         />
         <Button type="submit">Update Settings</Button>
       </form>
+      <Button type="button" onClick={() => dispatch(logoutRequest())}>
+        Logout
+      </Button>
     </S.Wrapper>
   );
 }

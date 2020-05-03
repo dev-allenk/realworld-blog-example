@@ -1,8 +1,11 @@
 import {
   LOGIN_REQUEST,
+  LOGOUT_REQUEST,
   REGISTER_REQUEST,
   loginSuccess,
   loginFailure,
+  logoutSuccess,
+  logoutFailure,
   registerSuccess,
   registerFailure,
 } from "@modules/auth";
@@ -42,7 +45,6 @@ function* login(payload: LoginPayload) {
       throw Error(yield response.json().errors); //TODO: errors객체 내용에 따라 화면에 에러 상황 출력
     }
     const { user } = yield response.json();
-    console.log(user);
     yield put(loginSuccess(user));
     return user;
   } catch (error) {
@@ -51,12 +53,23 @@ function* login(payload: LoginPayload) {
   }
 }
 
+function* logout() {
+  try {
+    yield call(session.remove, "token");
+    yield put(logoutSuccess());
+  } catch (error) {
+    console.warn(error);
+    yield put(logoutFailure());
+  }
+}
 export function* loginFlow() {
   while (true) {
     const { payload } = yield take(LOGIN_REQUEST);
     const user = yield call(login, payload);
     if (user) {
       yield call(session.set, "token", user.token);
+      yield take(LOGOUT_REQUEST);
+      yield call(logout);
     }
   }
 }

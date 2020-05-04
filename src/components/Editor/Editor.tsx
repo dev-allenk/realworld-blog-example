@@ -1,11 +1,13 @@
-import React, { useReducer, useMemo } from "react";
+import React, { useReducer, useMemo, useEffect } from "react";
 import S from "./editorStyles";
 import Button from "@components/Button";
 import useInput from "@hooks/useInput";
 import Tags from "./Tags";
 import useValidation from "@hooks/useValidation";
-import { useDispatch } from "react-redux";
-import { createRequest } from "@modules/article";
+import { useDispatch, useSelector } from "react-redux";
+import { createRequest, resetStatus } from "@modules/article";
+import { useRouter } from "next/router";
+import { RootState } from "@modules";
 
 interface Action {
   type: string;
@@ -25,6 +27,7 @@ const isValid = {
 };
 
 export default function Editor() {
+  const router = useRouter();
   const [tagList, dispatchTag] = useReducer(reducer, []);
   const { inputValue, handleChange } = useInput({});
   const { title, description, body, tag } = inputValue;
@@ -37,9 +40,15 @@ export default function Editor() {
 
   const [status, isAllValid] = useValidation(memoizedValue, isValid);
   const dispatch = useDispatch();
+  const isCreated = useSelector((state: RootState) => state.article.isCreated);
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!isCreated) return;
+    router.push("/"); //TODO: 해당 아티클 페이지로 이동.
+    dispatch(resetStatus());
+  }, [isCreated]);
+
+  const submit = () => {
     dispatch(createRequest({ article: { title, description, body, tagList } }));
   };
 
@@ -59,41 +68,39 @@ export default function Editor() {
 
   return (
     <S.Wrapper>
-      <form onSubmit={submit}>
-        <S.Input
-          name="title"
-          value={title}
-          onChange={handleChange}
-          placeholder="Article Title"
-          {...status.title}
-        />
-        <S.Input
-          name="description"
-          value={description}
-          onChange={handleChange}
-          placeholder="What's this article about?"
-          {...status.description}
-        />
-        <S.TextArea
-          name="body"
-          value={body}
-          onChange={handleChange}
-          placeholder="Write your article (Markdown supported)"
-          {...status.body}
-        />
-        <S.Input
-          name="tag"
-          value={tag}
-          onChange={handleChange}
-          onKeyDown={addTag}
-          placeholder="Enter tags"
-          isValid={true}
-        />
-        <Tags tagList={tagList} onClick={removeTag} />
-        <Button type="submit" disabled={!isAllValid()}>
-          Publish Article
-        </Button>
-      </form>
+      <S.Input
+        name="title"
+        value={title}
+        onChange={handleChange}
+        placeholder="Article Title"
+        {...status.title}
+      />
+      <S.Input
+        name="description"
+        value={description}
+        onChange={handleChange}
+        placeholder="What's this article about?"
+        {...status.description}
+      />
+      <S.TextArea
+        name="body"
+        value={body}
+        onChange={handleChange}
+        placeholder="Write your article (Markdown supported)"
+        {...status.body}
+      />
+      <S.Input
+        name="tag"
+        value={tag}
+        onChange={handleChange}
+        onKeyDown={addTag}
+        placeholder="Enter tags"
+        isValid={true}
+      />
+      <Tags tagList={tagList} onClick={removeTag} />
+      <Button type="button" disabled={!isAllValid()} onClick={submit}>
+        Publish Article
+      </Button>
     </S.Wrapper>
   );
 }

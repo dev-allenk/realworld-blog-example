@@ -4,6 +4,7 @@ import { GREY_6 } from "@constants/colors";
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 `;
 const Tag = styled.div`
   display: flex;

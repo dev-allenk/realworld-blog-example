@@ -12,6 +12,8 @@ const initialState = {
   isLoading: false,
   username: "",
   email: "",
+  image: "",
+  bio: "",
 };
 
 const user = createReducer(initialState, {
@@ -19,7 +21,7 @@ const user = createReducer(initialState, {
     return { ...state, isLoading: true };
   },
   [UPDATE_SUCCESS]: (state, { payload }) => {
-    return { ...payload, isLoading: false };
+    return { ...state, ...payload, isLoading: false };
   },
   [UPDATE_FAILURE]: (state, a) => {
     return { ...state, isLoading: false };
@@ -28,7 +30,7 @@ const user = createReducer(initialState, {
     return { ...state, isLoading: true };
   },
   [GET_SUCCESS]: (state, { payload }) => {
-    return { ...payload, isLoading: false };
+    return { ...state, ...payload, isLoading: false };
   },
   [GET_FAILURE]: (state, a) => {
     return { ...state, isLoading: false };

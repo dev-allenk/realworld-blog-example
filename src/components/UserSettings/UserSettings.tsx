@@ -40,9 +40,9 @@ export default function UserSettings() {
 
   useEffect(() => {
     setInputValue({
-      image: user.image!,
+      image: user.image,
       username: user.username,
-      bio: user.bio!,
+      bio: user.bio,
       email: user.email,
     });
   }, [user]);

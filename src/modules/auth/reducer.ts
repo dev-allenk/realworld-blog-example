@@ -1,5 +1,4 @@
 import { createReducer } from "typesafe-actions";
-import { AuthState, AuthAction } from "./types";
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -16,7 +15,7 @@ const initialState = {
   email: "",
 };
 
-const auth = createReducer<AuthState, AuthAction>(initialState, {
+const auth = createReducer(initialState, {
   [LOGIN_REQUEST]: (state, action) => {
     return { ...state, isLoading: true };
   },

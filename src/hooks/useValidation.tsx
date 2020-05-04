@@ -3,6 +3,8 @@ import { useReducer, Reducer, useEffect } from "react";
 interface Status {
   [idx: string]: { isValid: boolean; isEmpty: boolean };
 }
+type IsAllValid = () => boolean;
+
 interface Action {
   type: string;
   payload: string;
@@ -10,10 +12,9 @@ interface Action {
 interface Values {
   [idx: string]: string;
 }
-
-const USERNAME_REGEXP = /^[A-Za-z0-9_-]{4,15}$/;
-const PASSWORD_REGEXP = /^[A-Za-z0-9]{8,20}$/;
-const EMAIL_REGEXP = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*.[a-zA-Z]{2,3}$/;
+interface IsValid {
+  [idx: string]: (s: string) => boolean;
+}
 
 function reducer(state: Status, { type, payload }: Action) {
   switch (type) {
@@ -30,14 +31,19 @@ function reducer(state: Status, { type, payload }: Action) {
   }
 }
 
-export default function useValidation({
-  username,
-  email,
-  password,
-}: Values): [Status, () => boolean] {
+//TODO: 리턴 타입 추론 가능하도록 수정
+/**
+ *
+ * @param values 유효성 검사할 객체 형태의 값. 메모이제이션된 값이어야 합니다.
+ * @param isValid
+ */
+export default function useValidation<T extends Values, K extends IsValid>(
+  values: T,
+  isValid: K
+): [Status, IsAllValid] {
   const [status, dispatch] = useReducer<Reducer<Status, Action>>(
     reducer,
-    createInitialStatus({ username, email, password })
+    createInitialStatus(values)
   );
 
   const isAllValid = () => {
@@ -57,24 +63,31 @@ export default function useValidation({
     dispatch({ type: "setFilled", payload: property });
   };
 
-  const checkValidation = ({ username, email, password }: Values) => {
-    isEmailValid(email) ? setValid("email") : setInValid("email");
-    isUsernameValid(username) ? setValid("username") : setInValid("username");
-    isPasswordValid(password) ? setValid("password") : setInValid("password");
+  const checkValidation = (values: T) => {
+    try {
+      Object.keys(values).forEach((key) => {
+        isValid![key](values[key]) ? setValid(key) : setInValid(key);
+      });
+    } catch (error) {
+      console.warn(error);
+      console.warn(
+        'Check proper validation function exists in "isValid object"'
+      );
+    }
   };
 
   const isEmpty = (value: string) => !value;
 
-  const checkEmpty = ({ username, email, password }: Values) => {
-    isEmpty(email) ? setEmpty("email") : setFilled("email");
-    isEmpty(username) ? setEmpty("username") : setFilled("username");
-    isEmpty(password) ? setEmpty("password") : setFilled("password");
+  const checkEmpty = (values: T) => {
+    Object.keys(values).forEach((key) =>
+      isEmpty(values[key]) ? setEmpty(key) : setFilled(key)
+    );
   };
 
   useEffect(() => {
-    checkEmpty({ username, email, password });
-    checkValidation({ username, email, password });
-  }, [username, email, password]);
+    checkEmpty(values);
+    isValid && checkValidation(values);
+  }, [values]);
 
   return [status, isAllValid];
 }
@@ -93,15 +106,3 @@ function createInitialStatus<T>(param: T): any {
     return createInitialStatus(Object.keys(param));
   }
 }
-
-const isUsernameValid = (username: string) => {
-  return USERNAME_REGEXP.test(username) && !/\s/.test(username);
-};
-
-const isEmailValid = (email: string) => {
-  return EMAIL_REGEXP.test(email) && !/\s/.test(email);
-};
-
-const isPasswordValid = (password: string) => {
-  return PASSWORD_REGEXP.test(password) && !/\s/.test(password);
-};

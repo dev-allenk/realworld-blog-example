@@ -1,5 +1,4 @@
 import { createReducer } from "typesafe-actions";
-import { UserState, UserAction } from "./types";
 import {
   UPDATE_REQUEST,
   UPDATE_SUCCESS,
@@ -13,14 +12,16 @@ const initialState = {
   isLoading: false,
   username: "",
   email: "",
+  image: "",
+  bio: "",
 };
 
-const user = createReducer<UserState, UserAction>(initialState, {
+const user = createReducer(initialState, {
   [UPDATE_REQUEST]: (state, action) => {
     return { ...state, isLoading: true };
   },
   [UPDATE_SUCCESS]: (state, { payload }) => {
-    return { ...payload, isLoading: false };
+    return { ...state, ...payload, isLoading: false };
   },
   [UPDATE_FAILURE]: (state, a) => {
     return { ...state, isLoading: false };
@@ -29,7 +30,7 @@ const user = createReducer<UserState, UserAction>(initialState, {
     return { ...state, isLoading: true };
   },
   [GET_SUCCESS]: (state, { payload }) => {
-    return { ...payload, isLoading: false };
+    return { ...state, ...payload, isLoading: false };
   },
   [GET_FAILURE]: (state, a) => {
     return { ...state, isLoading: false };

@@ -1,4 +1,4 @@
-import { IUser, RegisterPayload, LoginPayload } from "@types";
+import { IUser, RegisterPayload, LoginPayload, ArticlePayload } from "@types";
 
 const API_ENDPOINT = "http://localhost:5000/api";
 
@@ -56,4 +56,10 @@ const userApi = {
   },
 };
 
-export default { ...authApi, ...userApi, handleResponse };
+const articleApi = {
+  createArticle(article: ArticlePayload, token: string) {
+    return request(POST, "/articles", options(BODY(article), TOKEN(token)));
+  },
+};
+
+export default { ...authApi, ...userApi, ...articleApi, handleResponse };

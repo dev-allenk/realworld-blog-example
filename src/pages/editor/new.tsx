@@ -1,5 +1,6 @@
 import React from "react";
+import Editor from "@components/Editor";
 
 export default function NewArticle() {
-  return <div>this is new article page</div>;
+  return <Editor></Editor>;
 }

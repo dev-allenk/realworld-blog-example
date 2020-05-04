@@ -5,11 +5,8 @@ const Container = styled.div`
   padding: 16px;
 `;
 
-const FeedNav = styled.nav`
-  display: flex;
-`;
-
 const PreviewContainer = styled.ol`
+  margin: 0;
   padding: 0;
 `;
 
@@ -52,7 +49,6 @@ const ReadMore = styled.span`
 
 export default {
   Container,
-  FeedNav,
   PreviewContainer,
   PreviewItemWrapper,
   Header,

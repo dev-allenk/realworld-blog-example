@@ -5,7 +5,7 @@ export interface IUser {
   bio?: string;
   image?: string;
 }
-export interface Article {
+export interface TArticle {
   slug: string;
   title: string;
   description: string;
@@ -22,6 +22,7 @@ export interface Article {
     following: boolean;
   };
 }
+export type TArticles = TArticle[];
 
 export interface RegisterPayload {
   user: { username: string; email: string; password: string };
@@ -38,7 +39,7 @@ export interface UserUpdatePayload {
     image: string;
   };
 }
-export interface ArticlePayload {
+export interface TArticlePayload {
   article: {
     title: string;
     description: string;

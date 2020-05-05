@@ -87,6 +87,10 @@ function* localLogin() {
 export function* loginCheckFlow() {
   while (true) {
     yield take(LOGIN_CHECK_REQUEST);
-    const token = yield call(localLogin);
+    const user = yield call(localLogin);
+    if (user) {
+      yield take(LOGOUT_REQUEST);
+      yield call(logout);
+    }
   }
 }

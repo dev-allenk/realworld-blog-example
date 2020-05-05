@@ -61,10 +61,10 @@ const articleApi = {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
   },
   getArticles() {
-    return request(GET, "/articles");
+    return request(GET, "/articles?limit=10");
   },
   getFeeds(token: string) {
-    return request(GET, "/articles/feed", TOKEN(token));
+    return request(GET, "/articles/feed?limit=10", TOKEN(token));
   },
 };
 

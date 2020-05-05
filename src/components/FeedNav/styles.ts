@@ -9,7 +9,7 @@ export const FeedNav = styled.nav`
   display: flex;
 `;
 
-export const Tab = styled.button<TTab>`
+export const Tab = styled.a<TTab>`
   padding: 16px;
   outline: none;
   border: none;
@@ -17,4 +17,8 @@ export const Tab = styled.button<TTab>`
     isActive ? `2px solid ${MAIN_BLUE}` : "none"};
   background-color: #fff;
   color: ${({ isActive }) => (isActive ? MAIN_BLUE : "#000")};
+  cursor: default;
+  &:hover {
+    color: ${MAIN_BLUE};
+  }
 `;

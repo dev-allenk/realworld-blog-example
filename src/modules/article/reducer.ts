@@ -40,7 +40,12 @@ const article = createReducer<TState>(initialState, {
     return { ...state, isLoading: false, isCreated: false };
   },
   [RESET_STATUS]: (state) => {
-    return { ...state, isLoading: false, isCreated: false };
+    return {
+      ...state,
+      isLoading: false,
+      isCreated: false,
+      article: {} as TArticle,
+    };
   },
   [GET_REQUEST]: (state) => {
     return { ...state, isLoading: true };

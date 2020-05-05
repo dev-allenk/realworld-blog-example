@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as S from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleArticle } from "@modules/article";
+import { getSingleArticle, resetStatus } from "@modules/article";
 import { useRouter } from "next/router";
 import { RootState } from "@modules";
 import ReactMarkDown from "react-markdown";
@@ -15,6 +15,9 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getSingleArticle.request(slug));
+    return () => {
+      dispatch(resetStatus());
+    };
   }, []);
 
   return (

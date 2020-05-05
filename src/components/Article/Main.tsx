@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleArticle } from "@modules/article";
 import { useRouter } from "next/router";
 import { RootState } from "@modules";
+import ReactMarkDown from "react-markdown";
 
 export default function Main() {
   const { asPath } = useRouter();
@@ -16,5 +17,9 @@ export default function Main() {
     dispatch(getSingleArticle.request(slug));
   }, []);
 
-  return <S.Wrapper>{article.body}</S.Wrapper>;
+  return (
+    <S.Wrapper>
+      <ReactMarkDown>{article.body}</ReactMarkDown>
+    </S.Wrapper>
+  );
 }

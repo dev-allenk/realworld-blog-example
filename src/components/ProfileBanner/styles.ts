@@ -22,7 +22,7 @@ export const Username = styled.h3`
   margin-top: 16px;
 `;
 
-export const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.a`
   display: flex;
   justify-content: flex-end;
   width: 100%;

@@ -72,7 +72,6 @@ export function* loginFlow() {
 function* localLogin() {
   try {
     const user = yield call(session.get, "user");
-    console.log(user);
     if (user) {
       yield put(loginCheck.success(user));
     } else {

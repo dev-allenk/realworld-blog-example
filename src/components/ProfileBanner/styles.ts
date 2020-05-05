@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { GREY_2, GREY_6, GREY_4 } from "@constants/colors";
 
+interface TGear {
+  isHovered: boolean;
+}
+
+const BUTTON_HOVERED_COLOR = GREY_4;
+
 export const Banner = styled.div`
   display: flex;
   justify-content: center;
@@ -9,6 +15,11 @@ export const Banner = styled.div`
   min-height: 120px;
   padding: 16px;
   background-color: ${GREY_2};
+`;
+
+export const Username = styled.h3`
+  margin: 0;
+  margin-top: 16px;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -29,7 +40,7 @@ export const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   &:hover {
-    background-color: ${GREY_4};
+    background-color: ${BUTTON_HOVERED_COLOR};
   }
 `;
 
@@ -40,7 +51,7 @@ export const GearWrapper = styled.div`
   margin: 0 8px;
 `;
 
-export const Gear = styled.div`
+export const Gear = styled.div<TGear>`
   position: absolute;
   width: 8px;
   height: 8px;
@@ -49,7 +60,8 @@ export const Gear = styled.div`
 
   border: 2px solid ${GREY_6};
   border-radius: 50%;
-  background-color: ${GREY_2};
+  background-color: ${({ isHovered }) =>
+    isHovered ? BUTTON_HOVERED_COLOR : GREY_2};
   z-index: 1;
 `;
 

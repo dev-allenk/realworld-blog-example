@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MAIN_BLUE, GREY_5, GREY_3 } from "@constants/colors";
+import { GREY_5, GREY_3 } from "@constants/colors";
 
 const Container = styled.div`
   padding: 0 16px;
@@ -21,20 +21,6 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
-const Meta = styled.div`
-  display: flex;
-`;
-const MetaInfo = styled.div`
-  padding: 0 8px;
-`;
-const Username = styled.div`
-  color: ${MAIN_BLUE};
-`;
-
-const Date = styled.span`
-  color: ${GREY_5};
-`;
-
 const Title = styled.h2`
   margin: 16px 0 8px 0;
 `;
@@ -52,10 +38,6 @@ export default {
   PreviewContainer,
   PreviewItemWrapper,
   Header,
-  Meta,
-  MetaInfo,
-  Username,
-  Date,
   Title,
   Desc,
   ReadMore,

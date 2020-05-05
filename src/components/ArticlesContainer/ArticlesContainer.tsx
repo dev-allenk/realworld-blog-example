@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRequest } from "@modules/article";
 import { RootState } from "@modules";
 import { useRouter } from "next/router";
-import { isEmpty } from "@utils";
 
 export default function ArticlesContainer() {
   const router = useRouter();
@@ -16,8 +15,10 @@ export default function ArticlesContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isEmpty(query)) {
-      dispatch(getRequest({ shouldGetFeeds: false }));
+    if (!query.follow) {
+      dispatch(
+        getRequest({ shouldGetFeeds: false, offset: query.offset! as string })
+      );
     }
     dispatch(getRequest({ shouldGetFeeds: true }));
   }, [query]);

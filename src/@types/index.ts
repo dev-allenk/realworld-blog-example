@@ -54,4 +54,5 @@ export interface TArticlePayload {
 }
 export interface TGetArticlesPayload {
   shouldGetFeeds?: boolean;
+  offset?: string;
 }

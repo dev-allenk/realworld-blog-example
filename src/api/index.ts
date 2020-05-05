@@ -60,8 +60,11 @@ const articleApi = {
   createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
   },
-  getArticles() {
-    return request(GET, "/articles?limit=10");
+  getArticles(offset?: string) {
+    return request(
+      GET,
+      `/articles?limit=10${offset ? `&offset=${offset}` : ""}`
+    );
   },
   getFeeds(token: string) {
     return request(GET, "/articles/feed?limit=10", TOKEN(token));

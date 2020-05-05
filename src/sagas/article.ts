@@ -9,7 +9,7 @@ import {
 import { take, call, put } from "redux-saga/effects";
 import api from "@api";
 import session from "./session";
-import { TArticlePayload } from "@types";
+import { TArticlePayload, TGetArticlesPayload } from "@types";
 
 function* createArticle(articlePayload: TArticlePayload) {
   try {
@@ -32,11 +32,11 @@ export function* createFlow() {
     const article = yield call(createArticle, payload);
   }
 }
-function* getArticles({ shouldGetFeeds }: { shouldGetFeeds: boolean }) {
+function* getArticles({ shouldGetFeeds, offset }: TGetArticlesPayload) {
   try {
     const response = shouldGetFeeds
       ? yield call(api.getFeeds, session.get("token"))
-      : yield call(api.getArticles);
+      : yield call(api.getArticles, offset);
     const { articles, articlesCount } = yield call(
       api.handleResponse,
       response

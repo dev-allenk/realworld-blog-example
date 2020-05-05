@@ -47,3 +47,6 @@ export interface TArticlePayload {
     tagList: string[];
   };
 }
+export interface TGetArticlesPayload {
+  shouldGetFeeds?: boolean;
+}

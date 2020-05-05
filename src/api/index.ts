@@ -63,6 +63,9 @@ const articleApi = {
   getArticles() {
     return request(GET, "/articles");
   },
+  getFeeds(token: string) {
+    return request(GET, "/articles/feed", TOKEN(token));
+  },
 };
 
 export default { ...authApi, ...userApi, ...articleApi, handleResponse };

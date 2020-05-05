@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MAIN_BLUE, GREY_5, GREY_3 } from "@constants/colors";
 
 const Container = styled.div`
-  padding: 16px;
+  padding: 0 16px;
 `;
 
 const PreviewContainer = styled.ol`

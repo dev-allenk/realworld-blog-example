@@ -32,9 +32,11 @@ export function* createFlow() {
     const article = yield call(createArticle, payload);
   }
 }
-function* getArticles() {
+function* getArticles({ shouldGetFeeds }: { shouldGetFeeds: boolean }) {
   try {
-    const response = yield call(api.getArticles);
+    const response = shouldGetFeeds
+      ? yield call(api.getFeeds, session.get("token"))
+      : yield call(api.getArticles);
     const { articles } = yield call(api.handleResponse, response);
     yield put(getSuccess(articles));
     return articles;
@@ -46,6 +48,6 @@ function* getArticles() {
 export function* getFlow() {
   while (true) {
     const { payload } = yield take(GET_REQUEST);
-    const article = yield call(getArticles);
+    const article = yield call(getArticles, payload);
   }
 }

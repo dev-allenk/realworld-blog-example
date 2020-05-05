@@ -25,7 +25,7 @@ export default function FeedNav() {
 
   useEffect(() => {
     isLoggedIn && isEmpty(query) ? setActiveIndex(1) : setActiveIndex(0);
-  }, [query]);
+  }, [isLoggedIn, query]);
 
   return (
     <S.FeedNav>

@@ -23,6 +23,7 @@ export default function Main() {
   return (
     <S.Wrapper>
       <ReactMarkDown>{article.body}</ReactMarkDown>
+      <S.HorizontalLine />
     </S.Wrapper>
   );
 }

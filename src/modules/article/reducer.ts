@@ -7,6 +7,9 @@ import {
   GET_SUCCESS,
   GET_FAILURE,
   RESET_STATUS,
+  GET_SINGLE_REQUEST,
+  GET_SINGLE_SUCCESS,
+  GET_SINGLE_FAILURE,
 } from "./actions";
 import { TArticles } from "@types";
 
@@ -44,6 +47,15 @@ const article = createReducer<TState>(initialState, {
     return { ...state, ...payload, isLoading: false };
   },
   [GET_FAILURE]: (state) => {
+    return { ...state, isLoading: false };
+  },
+  [GET_SINGLE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [GET_SINGLE_SUCCESS]: (state, { payload }) => {
+    return { ...state, ...payload, isLoading: false };
+  },
+  [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };
   },
 });

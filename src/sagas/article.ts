@@ -5,6 +5,8 @@ import {
   GET_REQUEST,
   getSuccess,
   getFailure,
+  GET_SINGLE_REQUEST,
+  getSingleArticle,
 } from "@modules/article";
 import { take, call, put } from "redux-saga/effects";
 import api from "@api";
@@ -52,5 +54,23 @@ export function* getFlow() {
   while (true) {
     const { payload } = yield take(GET_REQUEST);
     const article = yield call(getArticles, payload);
+  }
+}
+
+function* getArticle(slug: string) {
+  try {
+    const response = yield call(api.getSingleArticle, slug);
+    const { article } = yield call(api.handleResponse, response);
+    yield put(getSingleArticle.success(article));
+    return article;
+  } catch (error) {
+    console.warn(error);
+    yield put(getSingleArticle.failure());
+  }
+}
+export function* getSingleFlow() {
+  while (true) {
+    const { payload } = yield take(GET_SINGLE_REQUEST);
+    const article = yield call(getArticle, payload);
   }
 }

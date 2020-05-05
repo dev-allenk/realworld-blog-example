@@ -1,4 +1,4 @@
-import { IUser, RegisterPayload, LoginPayload, ArticlePayload } from "@types";
+import { IUser, RegisterPayload, LoginPayload, TArticlePayload } from "@types";
 
 const API_ENDPOINT = "http://localhost:5000/api";
 
@@ -57,8 +57,17 @@ const userApi = {
 };
 
 const articleApi = {
-  createArticle(article: ArticlePayload, token: string) {
+  createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
+  },
+  getArticles(offset?: string) {
+    return request(
+      GET,
+      `/articles?limit=10${offset ? `&offset=${offset}` : ""}`
+    );
+  },
+  getFeeds(token: string) {
+    return request(GET, "/articles/feed?limit=10", TOKEN(token));
   },
 };
 

@@ -5,7 +5,7 @@ export interface IUser {
   bio?: string;
   image?: string;
 }
-export interface Article {
+export interface TArticle {
   slug: string;
   title: string;
   description: string;
@@ -21,6 +21,12 @@ export interface Article {
     image: string;
     following: boolean;
   };
+}
+export type TArticles = TArticle[];
+
+export interface TMultipleArticles {
+  articles: TArticles;
+  articlesCount: number;
 }
 
 export interface RegisterPayload {
@@ -38,11 +44,15 @@ export interface UserUpdatePayload {
     image: string;
   };
 }
-export interface ArticlePayload {
+export interface TArticlePayload {
   article: {
     title: string;
     description: string;
     body: string;
     tagList: string[];
   };
+}
+export interface TGetArticlesPayload {
+  shouldGetFeeds?: boolean;
+  offset?: string;
 }

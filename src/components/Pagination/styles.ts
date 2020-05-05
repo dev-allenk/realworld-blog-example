@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GREY_3 } from "@constants/colors";
+import { GREY_3, MAIN_BLUE } from "@constants/colors";
 
 export const Wrapper = styled.nav`
   display: flex;
@@ -12,4 +12,9 @@ export const Button = styled.button`
   height: 32px;
   border: 1px solid ${GREY_3};
   background-color: #fff;
+  &:hover {
+    color: #fff;
+    border: 1px solid ${MAIN_BLUE};
+    background-color: ${MAIN_BLUE};
+  }
 `;

@@ -24,6 +24,11 @@ export interface TArticle {
 }
 export type TArticles = TArticle[];
 
+export interface TMultipleArticles {
+  articles: TArticles;
+  articlesCount: number;
+}
+
 export interface RegisterPayload {
   user: { username: string; email: string; password: string };
 }

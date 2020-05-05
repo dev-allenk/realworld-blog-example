@@ -13,13 +13,15 @@ import { TArticles } from "@types";
 interface TState {
   isLoading: boolean;
   isCreated: boolean;
-  articles?: TArticles;
+  articles: TArticles;
+  articlesCount: number;
 }
 
 const initialState = {
   isLoading: false,
   isCreated: false,
   articles: [],
+  articlesCount: 0,
 };
 
 const article = createReducer<TState>(initialState, {
@@ -39,7 +41,7 @@ const article = createReducer<TState>(initialState, {
     return { ...state, isLoading: true };
   },
   [GET_SUCCESS]: (state, { payload }) => {
-    return { ...state, articles: payload, isLoading: false };
+    return { ...state, ...payload, isLoading: false };
   },
   [GET_FAILURE]: (state) => {
     return { ...state, isLoading: false };

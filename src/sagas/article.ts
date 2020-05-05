@@ -37,8 +37,11 @@ function* getArticles({ shouldGetFeeds }: { shouldGetFeeds: boolean }) {
     const response = shouldGetFeeds
       ? yield call(api.getFeeds, session.get("token"))
       : yield call(api.getArticles);
-    const { articles } = yield call(api.handleResponse, response);
-    yield put(getSuccess(articles));
+    const { articles, articlesCount } = yield call(
+      api.handleResponse,
+      response
+    );
+    yield put(getSuccess({ articles, articlesCount }));
     return articles;
   } catch (error) {
     console.warn(error);

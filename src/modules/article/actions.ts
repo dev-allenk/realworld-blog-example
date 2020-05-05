@@ -3,6 +3,7 @@ import {
   TGetArticlesPayload,
   TArticle,
   TArticles,
+  TMultipleArticles,
 } from "@types";
 import { createAction } from "typesafe-actions";
 
@@ -19,6 +20,6 @@ export const createRequest = createAction(CREATE_REQUEST)<TArticlePayload>();
 export const createSuccess = createAction(CREATE_SUCCESS)<TArticle>();
 export const createFailure = createAction(CREATE_FAILURE)();
 export const getRequest = createAction(GET_REQUEST)<TGetArticlesPayload>();
-export const getSuccess = createAction(GET_SUCCESS)<TArticles>();
+export const getSuccess = createAction(GET_SUCCESS)<TMultipleArticles>();
 export const getFailure = createAction(GET_FAILURE)();
 export const resetStatus = createAction(RESET_STATUS)();

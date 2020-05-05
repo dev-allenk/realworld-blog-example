@@ -8,13 +8,13 @@ interface Props {
   createdAt: string;
 }
 
-export default function AuthorMeta({ src, username, createdAt }: Props) {
+export default function AuthorMeta({ src, username, createdAt = "" }: Props) {
   return (
     <S.Meta>
       <ProfileImage small src={src} />
       <S.MetaInfo>
         <S.Username>{username}</S.Username>
-        <S.Date>{createdAt.split("T")[0]}</S.Date>
+        <S.Date>{createdAt?.split("T")[0]}</S.Date>
       </S.MetaInfo>
     </S.Meta>
   );

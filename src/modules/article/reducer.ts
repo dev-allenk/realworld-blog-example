@@ -11,20 +11,22 @@ import {
   GET_SINGLE_SUCCESS,
   GET_SINGLE_FAILURE,
 } from "./actions";
-import { TArticles } from "@types";
+import { TArticles, TArticle } from "@types";
 
 interface TState {
   isLoading: boolean;
   isCreated: boolean;
   articles: TArticles;
   articlesCount: number;
+  article: TArticle;
 }
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   isCreated: false,
   articles: [],
   articlesCount: 0,
+  article: {} as TArticle,
 };
 
 const article = createReducer<TState>(initialState, {
@@ -53,7 +55,7 @@ const article = createReducer<TState>(initialState, {
     return { ...state, isLoading: true };
   },
   [GET_SINGLE_SUCCESS]: (state, { payload }) => {
-    return { ...state, ...payload, isLoading: false };
+    return { ...state, article: payload, isLoading: false };
   },
   [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };

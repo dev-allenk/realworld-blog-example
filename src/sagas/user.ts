@@ -13,7 +13,7 @@ import session from "./session";
 
 function* getUser() {
   try {
-    const response = yield call(api.getUser, session.get("token"));
+    const response = yield call(api.getUser, session.get("user").token);
     const { user } = yield call(api.handleResponse, response);
     yield put(getSuccess(user));
     return user;
@@ -30,7 +30,11 @@ export function* getFlow() {
 }
 function* updateUser(payload: IUser) {
   try {
-    const response = yield call(api.updateUser, payload, session.get("token"));
+    const response = yield call(
+      api.updateUser,
+      payload,
+      session.get("user").token
+    );
     const { user } = yield call(api.handleResponse, response);
     yield put(updateSuccess(user));
     return user;

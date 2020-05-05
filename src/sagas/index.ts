@@ -6,6 +6,7 @@ import * as article from "./article";
 export default function* rootSaga() {
   yield all([
     call(auth.loginFlow),
+    call(auth.loginCheckFlow),
     call(auth.registerFlow),
     call(user.getFlow),
     call(user.updateFlow),

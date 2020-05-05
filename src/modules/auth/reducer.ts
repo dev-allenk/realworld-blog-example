@@ -6,6 +6,9 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  LOGIN_CHECK_REQUEST,
+  LOGIN_CHECK_SUCCESS,
+  LOGIN_CHECK_FAILURE,
 } from "./actions";
 
 const initialState = {
@@ -32,6 +35,15 @@ const auth = createReducer(initialState, {
     return { ...state, isLoggedIn: false, isLoading: false };
   },
   [LOGOUT_FAILURE]: (state) => {
+    return { ...state, isLoading: false };
+  },
+  [LOGIN_CHECK_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [LOGIN_CHECK_SUCCESS]: (state, { payload: { username, email } }) => {
+    return { ...state, username, email, isLoggedIn: true, isLoading: false };
+  },
+  [LOGIN_CHECK_FAILURE]: (state) => {
     return { ...state, isLoading: false };
   },
 });

@@ -3,7 +3,7 @@ const path = {
   login: "/user/login",
   newArticle: "/editor/new",
   settings: "/user/settings",
-  profile: "profile/[username]",
+  profile: "/profile/[username]",
   profileAs(username) {
     return `/profile/${username}`;
   },

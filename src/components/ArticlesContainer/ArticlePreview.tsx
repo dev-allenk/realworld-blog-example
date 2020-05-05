@@ -3,6 +3,7 @@ import S from "./styles";
 import LikeButton from "./LikeButton";
 import { TArticle } from "@types";
 import AuthorMeta from "@components/AuthorMeta";
+import Link from "next/link";
 
 export default function ArticlePreview(props: TArticle) {
   const {
@@ -23,11 +24,13 @@ export default function ArticlePreview(props: TArticle) {
         <AuthorMeta src={image} username={username} createdAt={createdAt} />
         <LikeButton favorited={favorited} favoritesCount={favoritesCount} />
       </S.Header>
-      <a>
-        <S.Title>{title}</S.Title>
-        <S.Desc>{description}</S.Desc>
-        <S.ReadMore>Read more...</S.ReadMore>
-      </a>
+      <Link href={"/article/[slug]"} as={`/article/${slug}`}>
+        <S.Link>
+          <S.Title>{title}</S.Title>
+          <S.Desc>{description}</S.Desc>
+          <S.ReadMore>Read more...</S.ReadMore>
+        </S.Link>
+      </Link>
     </S.PreviewItemWrapper>
   );
 }

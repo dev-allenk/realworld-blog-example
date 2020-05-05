@@ -21,6 +21,11 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+`;
+
 const Title = styled.h2`
   margin: 16px 0 8px 0;
 `;
@@ -38,6 +43,7 @@ export default {
   PreviewContainer,
   PreviewItemWrapper,
   Header,
+  Link,
   Title,
   Desc,
   ReadMore,

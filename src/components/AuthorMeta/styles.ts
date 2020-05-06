@@ -9,6 +9,7 @@ export const MetaInfo = styled.div`
 `;
 export const Username = styled.div`
   color: ${MAIN_BLUE};
+  cursor: pointer;
 `;
 
 export const Date = styled.span`

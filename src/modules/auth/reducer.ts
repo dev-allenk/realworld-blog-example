@@ -1,5 +1,8 @@
 import { createReducer } from "typesafe-actions";
 import {
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -19,7 +22,16 @@ const initialState = {
 };
 
 const auth = createReducer(initialState, {
-  [LOGIN_REQUEST]: (state, action) => {
+  [REGISTER_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [REGISTER_SUCCESS]: (state, { payload: { username, email } }) => {
+    return { ...state, username, email, isLoggedIn: true, isLoading: false };
+  },
+  [REGISTER_FAILURE]: (state) => {
+    return { ...state, isLoggedIn: false, isLoading: false };
+  },
+  [LOGIN_REQUEST]: (state) => {
     return { ...state, isLoading: true };
   },
   [LOGIN_SUCCESS]: (state, { payload: { username, email } }) => {

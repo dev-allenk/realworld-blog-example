@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRequest } from "@modules/article";
 import { RootState } from "@modules";
 import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 export default function ArticlesContainer() {
   const router = useRouter();
@@ -15,18 +16,33 @@ export default function ArticlesContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!query.follow) {
+    if (query.favorited) {
       dispatch(
-        getRequest({
-          shouldGetFeeds: false,
-          query: { ...query, limit: "10" },
-        })
+        getRequest({ shouldGetFeeds: false, query: queries.favorited(query) })
       );
-    } else {
-      dispatch(getRequest({ shouldGetFeeds: true, query: { limit: "10" } }));
+      return;
     }
+    if (query.follow) {
+      dispatch(
+        getRequest({ shouldGetFeeds: true, query: queries.follow(query) })
+      );
+      return;
+    }
+    dispatch(
+      getRequest({ shouldGetFeeds: false, query: { ...query, limit: "10" } })
+    );
   }, [query]);
 
+  const queries = {
+    favorited: ({ author, ...restQueries }: ParsedUrlQuery) => ({
+      ...restQueries,
+      limit: "10",
+    }),
+    follow: ({ follow, ...restQueries }: ParsedUrlQuery) => ({
+      ...restQueries,
+      limit: "10",
+    }),
+  };
   return (
     <S.Container>
       <S.PreviewContainer>

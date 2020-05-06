@@ -7,21 +7,26 @@ import {
   GET_SUCCESS,
   GET_FAILURE,
   RESET_STATUS,
+  GET_SINGLE_REQUEST,
+  GET_SINGLE_SUCCESS,
+  GET_SINGLE_FAILURE,
 } from "./actions";
-import { TArticles } from "@types";
+import { TArticles, TArticle } from "@types";
 
 interface TState {
   isLoading: boolean;
   isCreated: boolean;
   articles: TArticles;
   articlesCount: number;
+  article: TArticle;
 }
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   isCreated: false,
   articles: [],
   articlesCount: 0,
+  article: {} as TArticle,
 };
 
 const article = createReducer<TState>(initialState, {
@@ -35,7 +40,12 @@ const article = createReducer<TState>(initialState, {
     return { ...state, isLoading: false, isCreated: false };
   },
   [RESET_STATUS]: (state) => {
-    return { ...state, isLoading: false, isCreated: false };
+    return {
+      ...state,
+      isLoading: false,
+      isCreated: false,
+      article: {} as TArticle,
+    };
   },
   [GET_REQUEST]: (state) => {
     return { ...state, isLoading: true };
@@ -44,6 +54,15 @@ const article = createReducer<TState>(initialState, {
     return { ...state, ...payload, isLoading: false };
   },
   [GET_FAILURE]: (state) => {
+    return { ...state, isLoading: false };
+  },
+  [GET_SINGLE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [GET_SINGLE_SUCCESS]: (state, { payload }) => {
+    return { ...state, article: payload, isLoading: false };
+  },
+  [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };
   },
 });

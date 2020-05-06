@@ -5,7 +5,7 @@ import {
   TArticles,
   TMultipleArticles,
 } from "@types";
-import { createAction } from "typesafe-actions";
+import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const CREATE_REQUEST = "article/CREATE_REQUEST" as const;
 export const CREATE_SUCCESS = "article/CREATE_SUCCESS" as const;
@@ -13,7 +13,9 @@ export const CREATE_FAILURE = "article/CREATE_FAILURE" as const;
 export const GET_REQUEST = "article/GET_REQUEST" as const;
 export const GET_SUCCESS = "article/GET_SUCCESS" as const;
 export const GET_FAILURE = "article/GET_FAILURE" as const;
-//TODO: 단일 article 받아오는 api와 구분 필요
+export const GET_SINGLE_REQUEST = "article/GET_SINGLE_REQUEST" as const;
+export const GET_SINGLE_SUCCESS = "article/GET_SINGLE_SUCCESS" as const;
+export const GET_SINGLE_FAILURE = "article/GET_SINGLE_FAILURE" as const;
 export const RESET_STATUS = "article/RESET_STATUS" as const;
 
 export const createRequest = createAction(CREATE_REQUEST)<TArticlePayload>();
@@ -23,3 +25,9 @@ export const getRequest = createAction(GET_REQUEST)<TGetArticlesPayload>();
 export const getSuccess = createAction(GET_SUCCESS)<TMultipleArticles>();
 export const getFailure = createAction(GET_FAILURE)();
 export const resetStatus = createAction(RESET_STATUS)();
+
+export const getSingleArticle = createAsyncAction(
+  GET_SINGLE_REQUEST,
+  GET_SINGLE_SUCCESS,
+  GET_SINGLE_FAILURE
+)<string, TArticle, undefined>();

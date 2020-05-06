@@ -69,6 +69,9 @@ const articleApi = {
   getFeeds(token: string) {
     return request(GET, "/articles/feed?limit=10", TOKEN(token));
   },
+  getSingleArticle(slug: string) {
+    return request(GET, `/articles/${slug}`);
+  },
 };
 
 export default { ...authApi, ...userApi, ...articleApi, handleResponse };

@@ -1,11 +1,17 @@
 import { createReducer } from "typesafe-actions";
 import {
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  LOGIN_CHECK_REQUEST,
+  LOGIN_CHECK_SUCCESS,
+  LOGIN_CHECK_FAILURE,
 } from "./actions";
 
 const initialState = {
@@ -16,7 +22,16 @@ const initialState = {
 };
 
 const auth = createReducer(initialState, {
-  [LOGIN_REQUEST]: (state, action) => {
+  [REGISTER_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [REGISTER_SUCCESS]: (state, { payload: { username, email } }) => {
+    return { ...state, username, email, isLoggedIn: true, isLoading: false };
+  },
+  [REGISTER_FAILURE]: (state) => {
+    return { ...state, isLoggedIn: false, isLoading: false };
+  },
+  [LOGIN_REQUEST]: (state) => {
     return { ...state, isLoading: true };
   },
   [LOGIN_SUCCESS]: (state, { payload: { username, email } }) => {
@@ -32,6 +47,15 @@ const auth = createReducer(initialState, {
     return { ...state, isLoggedIn: false, isLoading: false };
   },
   [LOGOUT_FAILURE]: (state) => {
+    return { ...state, isLoading: false };
+  },
+  [LOGIN_CHECK_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [LOGIN_CHECK_SUCCESS]: (state, { payload: { username, email } }) => {
+    return { ...state, username, email, isLoggedIn: true, isLoading: false };
+  },
+  [LOGIN_CHECK_FAILURE]: (state) => {
     return { ...state, isLoading: false };
   },
 });

@@ -1,4 +1,10 @@
-import { IUser, RegisterPayload, LoginPayload, TArticlePayload } from "@types";
+import {
+  IUser,
+  RegisterPayload,
+  LoginPayload,
+  TArticlePayload,
+  TQuery,
+} from "@types";
 
 const API_ENDPOINT = "http://localhost:5000/api";
 
@@ -26,6 +32,20 @@ const BODY = (value: any) => ({
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(value),
 });
+
+const createKeyValueSet = (key: string, value: string): string | null => {
+  return value ? `${key}=${value}` : null;
+};
+
+const QUERY = (query?: TQuery): string => {
+  return query
+    ? "?" +
+        Object.keys(query)
+          .map((key) => createKeyValueSet(key, query[key]))
+          .filter(Boolean)
+          .join("&")
+    : "";
+};
 
 const request = async (method: string, URI: string, options?: object) => {
   return await fetch(`${API_ENDPOINT}${URI}`, { method, ...options });
@@ -60,11 +80,8 @@ const articleApi = {
   createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
   },
-  getArticles(offset?: string) {
-    return request(
-      GET,
-      `/articles?limit=10${offset ? `&offset=${offset}` : ""}`
-    );
+  getArticles(query?: TQuery) {
+    return request(GET, `/articles${QUERY(query)}`);
   },
   getFeeds(token: string) {
     return request(GET, "/articles/feed?limit=10", TOKEN(token));

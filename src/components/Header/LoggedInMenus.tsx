@@ -12,7 +12,7 @@ export default function LoggedInMenus({ username }: { username: string }) {
       <Link href={path.settings}>
         <S.Link>Settings</S.Link>
       </Link>
-      <Link href={path.profile}>
+      <Link href={path.profile} as={path.profileAs(username)}>
         <S.Link>{username}</S.Link>
       </Link>
     </S.LinkWrapper>

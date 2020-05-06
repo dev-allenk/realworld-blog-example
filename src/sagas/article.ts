@@ -18,7 +18,7 @@ function* createArticle(articlePayload: TArticlePayload) {
     const response = yield call(
       api.createArticle,
       articlePayload,
-      session.get("token")
+      session.get("user").token
     );
     const { article } = yield call(api.handleResponse, response);
     yield put(createSuccess(article));
@@ -34,11 +34,11 @@ export function* createFlow() {
     const article = yield call(createArticle, payload);
   }
 }
-function* getArticles({ shouldGetFeeds, offset }: TGetArticlesPayload) {
+function* getArticles({ shouldGetFeeds, query }: TGetArticlesPayload) {
   try {
     const response = shouldGetFeeds
-      ? yield call(api.getFeeds, session.get("token"))
-      : yield call(api.getArticles, offset);
+      ? yield call(api.getFeeds, session.get("user").token)
+      : yield call(api.getArticles, query);
     const { articles, articlesCount } = yield call(
       api.handleResponse,
       response

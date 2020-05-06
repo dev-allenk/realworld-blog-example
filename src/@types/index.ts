@@ -52,7 +52,12 @@ export interface TArticlePayload {
     tagList: string[];
   };
 }
+
+export interface TQuery {
+  [idx: string]: string;
+}
+
 export interface TGetArticlesPayload {
   shouldGetFeeds?: boolean;
-  offset?: string;
+  query?: TQuery;
 }

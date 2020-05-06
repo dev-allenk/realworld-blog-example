@@ -9,7 +9,7 @@ import {
 const API_ENDPOINT =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000/api"
-    : "http://allenk-realworld-server.herokuapp.com/api";
+    : "http://allenk-realworld-server.herokuapp.com:80/api";
 
 const GET = "GET";
 const POST = "POST";

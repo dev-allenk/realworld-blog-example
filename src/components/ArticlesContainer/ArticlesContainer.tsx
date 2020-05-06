@@ -19,11 +19,12 @@ export default function ArticlesContainer() {
       dispatch(
         getRequest({
           shouldGetFeeds: false,
-          query: { offset: query.offset as string, limit: "10" },
+          query: { ...query, limit: "10" },
         })
       );
+    } else {
+      dispatch(getRequest({ shouldGetFeeds: true, query: { limit: "10" } }));
     }
-    dispatch(getRequest({ shouldGetFeeds: true, query: { limit: "10" } }));
   }, [query]);
 
   return (

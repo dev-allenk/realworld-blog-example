@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "@modules";
 import Link from "next/link";
+import path from "@constants/routingPaths";
 
 export default function FeedNav() {
   const router = useRouter();
@@ -26,14 +27,14 @@ export default function FeedNav() {
     ];
     const profilePage = [
       {
-        path: `/profile/[username]?favorite=true`,
-        as: `/profile/${username}?favorite=true`,
+        path: `${path.profile}?favorited=${username}`,
+        as: `${path.profileAs(username)}?favorited=${username}`,
         tabName: "Favorited Articles",
-        queryKey: "favorite",
+        queryKey: "favorited",
       },
       {
-        path: `/profile/[username]`,
-        as: `/profile/${username}`,
+        path: path.profile,
+        as: path.profileAs(username),
         tabName: "My Articles",
         queryKey: "username",
       },

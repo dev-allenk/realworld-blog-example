@@ -17,10 +17,13 @@ export default function ArticlesContainer() {
   useEffect(() => {
     if (!query.follow) {
       dispatch(
-        getRequest({ shouldGetFeeds: false, offset: query.offset! as string })
+        getRequest({
+          shouldGetFeeds: false,
+          query: { offset: query.offset as string, limit: "10" },
+        })
       );
     }
-    dispatch(getRequest({ shouldGetFeeds: true }));
+    dispatch(getRequest({ shouldGetFeeds: true, query: { limit: "10" } }));
   }, [query]);
 
   return (

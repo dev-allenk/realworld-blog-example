@@ -22,7 +22,7 @@ interface TState {
 }
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   isCreated: false,
   articles: [],
   articlesCount: 0,
@@ -33,8 +33,8 @@ const article = createReducer<TState>(initialState, {
   [CREATE_REQUEST]: (state) => {
     return { ...state, isLoading: true };
   },
-  [CREATE_SUCCESS]: (state) => {
-    return { ...state, isLoading: false, isCreated: true };
+  [CREATE_SUCCESS]: (state, { payload }) => {
+    return { ...state, article: payload, isLoading: false, isCreated: true };
   },
   [CREATE_FAILURE]: (state) => {
     return { ...state, isLoading: false, isCreated: false };

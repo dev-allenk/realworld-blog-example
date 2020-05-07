@@ -4,8 +4,8 @@ import { responsiveLayout } from "@components/Layout/Container";
 import { SInput, STextArea } from "@components/TextBox";
 
 const Wrapper = styled(Flex.VerticalCenter)`
-  padding: 0 16px;
   ${responsiveLayout}
+  padding: 0 16px;
 `;
 
 const Input = styled(SInput)`

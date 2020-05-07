@@ -9,8 +9,8 @@ interface Validity {
 }
 
 const Wrapper = styled(Flex.VerticalCenter)`
-  padding: 16px;
   ${responsiveLayout}
+  padding: 16px;
 `;
 
 const Input = styled(SInput)<Validity>`

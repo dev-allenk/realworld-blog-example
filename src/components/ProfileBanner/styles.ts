@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { GREY_2, GREY_6, GREY_4 } from "@constants/colors";
+import { Container } from "@components/Layout/Container";
 
 interface TGear {
   isHovered: boolean;
@@ -8,13 +9,17 @@ interface TGear {
 const BUTTON_HOVERED_COLOR = GREY_4;
 
 export const Banner = styled.div`
+  min-height: 120px;
+  padding: 16px;
+  background-color: ${GREY_2};
+`;
+
+export const BannerInnerWrapper = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  min-height: 120px;
-  padding: 16px;
-  background-color: ${GREY_2};
+  width: 100%;
 `;
 
 export const Username = styled.h3`

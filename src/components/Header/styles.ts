@@ -6,11 +6,14 @@ import {
   GREY_7,
   MAIN_BLUE_LIGHT,
 } from "../../constants/colors";
+import { MAX_WIDTH } from "@constants/mediaqueries";
 
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid ${GREY_3};
+  margin: 0 auto;
+  max-width: ${MAX_WIDTH.HEADER};
 `;
 
 const Title = styled.h2`

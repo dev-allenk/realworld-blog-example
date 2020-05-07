@@ -30,13 +30,15 @@ export default function ProfileBanner() {
   } = useRouter();
   return (
     <S.Banner>
-      <ProfileImage large />
-      <S.Username>{author}</S.Username>
-      <Link href={path.settings}>
-        <S.ButtonWrapper>
-          <EditButton />
-        </S.ButtonWrapper>
-      </Link>
+      <S.BannerInnerWrapper>
+        <ProfileImage large />
+        <S.Username>{author}</S.Username>
+        <Link href={path.settings}>
+          <S.ButtonWrapper>
+            <EditButton />
+          </S.ButtonWrapper>
+        </Link>
+      </S.BannerInnerWrapper>
     </S.Banner>
   );
 }

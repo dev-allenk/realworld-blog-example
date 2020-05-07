@@ -7,6 +7,7 @@ import { updateRequest, getRequest } from "@modules/user";
 import { RootState } from "@modules";
 import { logoutRequest } from "@modules/auth";
 import { useRouter } from "next/router";
+import Loader from "@components/Loader";
 
 const initialValues = {
   image: "",
@@ -24,6 +25,7 @@ export default function UserSettings() {
     isLoggedIn: state.auth.isLoggedIn,
     user: state.user,
   }));
+  const { isLoading } = user;
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -54,42 +56,48 @@ export default function UserSettings() {
   return (
     <S.Wrapper>
       <h1>Your Settings</h1>
-      <form onSubmit={requestUpdate}>
-        <S.Input
-          name={"image"}
-          value={image}
-          onChange={handleChange}
-          placeholder={"URL of profile picture"}
-        />
-        <S.Input
-          name={"username"}
-          value={username}
-          onChange={handleChange}
-          placeholder={"Username"}
-        />
-        <S.TextArea
-          name={"bio"}
-          value={bio}
-          onChange={handleChange}
-          placeholder={"Please introduce yourself!"}
-        />
-        <S.Input
-          name={"email"}
-          value={email}
-          onChange={handleChange}
-          placeholder={"Email"}
-        />
-        <S.Input
-          name={"password"}
-          value={password}
-          onChange={handleChange}
-          placeholder={"New Password"}
-        />
-        <Button type="submit">Update Settings</Button>
-      </form>
-      <Button type="button" onClick={() => dispatch(logoutRequest())}>
-        Logout
-      </Button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <form onSubmit={requestUpdate}>
+            <S.Input
+              name={"image"}
+              value={image}
+              onChange={handleChange}
+              placeholder={"URL of profile picture"}
+            />
+            <S.Input
+              name={"username"}
+              value={username}
+              onChange={handleChange}
+              placeholder={"Username"}
+            />
+            <S.TextArea
+              name={"bio"}
+              value={bio}
+              onChange={handleChange}
+              placeholder={"Please introduce yourself!"}
+            />
+            <S.Input
+              name={"email"}
+              value={email}
+              onChange={handleChange}
+              placeholder={"Email"}
+            />
+            <S.Input
+              name={"password"}
+              value={password}
+              onChange={handleChange}
+              placeholder={"New Password"}
+            />
+            <Button type="submit">Update Settings</Button>
+          </form>
+          <Button type="button" onClick={() => dispatch(logoutRequest())}>
+            Logout
+          </Button>
+        </>
+      )}
     </S.Wrapper>
   );
 }

@@ -1,3 +1,4 @@
+export const MAIN_BLUE_RGB = "76, 128, 241";
 export const MAIN_BLUE = "#4c80f1";
 export const MAIN_BLUE_LIGHT = "#87b1f3";
 export const MAIN_BLUE_DARK = "#2c5ae9";

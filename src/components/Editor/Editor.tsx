@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { createRequest, resetStatus } from "@modules/article";
 import { useRouter } from "next/router";
 import { RootState } from "@modules";
+import Loader from "@components/Loader";
+import Modal from "@components/Modal";
+import path from "@constants/routingPaths";
 
 interface Action {
   type: string;
@@ -40,11 +43,13 @@ export default function Editor() {
 
   const [status, isAllValid] = useValidation(memoizedValue, isValid);
   const dispatch = useDispatch();
-  const isCreated = useSelector((state: RootState) => state.article.isCreated);
+  const { isCreated, isLoading, article } = useSelector(
+    (state: RootState) => state.article
+  );
 
   useEffect(() => {
     if (!isCreated) return;
-    router.push("/"); //TODO: 해당 아티클 페이지로 이동.
+    router.push(path.article, path.articleAs(article.slug));
     dispatch(resetStatus());
   }, [isCreated]);
 
@@ -67,41 +72,49 @@ export default function Editor() {
   };
 
   return (
-    <S.Wrapper>
-      <S.Input
-        name="title"
-        value={title}
-        onChange={handleChange}
-        placeholder="Article Title"
-        {...status.title}
-      />
-      <S.Input
-        name="description"
-        value={description}
-        onChange={handleChange}
-        placeholder="What's this article about?"
-        {...status.description}
-      />
-      <S.TextArea
-        name="body"
-        value={body}
-        onChange={handleChange}
-        placeholder="Write your article (Markdown supported)"
-        {...status.body}
-      />
-      <S.Input
-        name="tag"
-        value={tag}
-        onChange={handleChange}
-        onKeyDown={addTag}
-        placeholder="Enter tags"
-        isValid={true}
-      />
-      <Tags tagList={tagList} onClick={removeTag} />
-      <Button type="button" disabled={!isAllValid()} onClick={submit}>
-        Publish Article
-      </Button>
-    </S.Wrapper>
+    <>
+      {isLoading ? (
+        <Modal>
+          <Loader />
+        </Modal>
+      ) : (
+        <S.Wrapper>
+          <S.Input
+            name="title"
+            value={title}
+            onChange={handleChange}
+            placeholder="Article Title"
+            {...status.title}
+          />
+          <S.Input
+            name="description"
+            value={description}
+            onChange={handleChange}
+            placeholder="What's this article about?"
+            {...status.description}
+          />
+          <S.TextArea
+            name="body"
+            value={body}
+            onChange={handleChange}
+            placeholder="Write your article (Markdown supported)"
+            {...status.body}
+          />
+          <S.Input
+            name="tag"
+            value={tag}
+            onChange={handleChange}
+            onKeyDown={addTag}
+            placeholder="Enter tags"
+            isValid={true}
+          />
+          <Tags tagList={tagList} onClick={removeTag} />
+          <Button type="button" disabled={!isAllValid()} onClick={submit}>
+            Publish Article
+          </Button>
+        </S.Wrapper>
+      )}
+    </>
   );
 }
 

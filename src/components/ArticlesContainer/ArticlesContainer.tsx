@@ -6,13 +6,15 @@ import { getRequest } from "@modules/article";
 import { RootState } from "@modules";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import Loader from "@components/Loader";
 
 export default function ArticlesContainer() {
   const router = useRouter();
   const { pathname, query } = router;
-  const articles = useSelector(
-    (state: RootState) => state.article.articles || []
-  );
+  const { articles, isLoading } = useSelector((state: RootState) => ({
+    isLoading: state.article.isLoading,
+    articles: state.article.articles || [],
+  }));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,11 +47,15 @@ export default function ArticlesContainer() {
   };
   return (
     <S.Container>
-      <S.PreviewContainer>
-        {articles.map((article) => (
-          <ArticlePreview key={article.slug} {...article} />
-        ))}
-      </S.PreviewContainer>
+      {isLoading ? (
+        <Loader size={80} />
+      ) : (
+        <S.PreviewContainer>
+          {articles.map((article) => (
+            <ArticlePreview key={article.slug} {...article} />
+          ))}
+        </S.PreviewContainer>
+      )}
     </S.Container>
   );
 }

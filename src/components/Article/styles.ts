@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { GREY_8, GREY_4 } from "@constants/colors";
+import { Container } from "@components/Layout/Container";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Container)`
   padding: 24px;
 `;
 
@@ -12,6 +13,10 @@ export const HeaderWrapper = styled.div`
   padding: 32px 16px;
   min-height: 120px;
   background-color: ${GREY_8};
+`;
+
+export const HeaderInnerWrapper = styled(Container)`
+  width: 100%;
 `;
 
 export const Title = styled.h1`

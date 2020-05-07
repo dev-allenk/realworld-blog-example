@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { MAIN_BLUE, MAIN_BLUE_RGB } from "@constants/colors";
+import { TLoader } from "./Loader";
 
 const spin = keyframes`
   to {
@@ -7,15 +8,10 @@ const spin = keyframes`
   }
 `;
 
-interface TLoader {
-  width?: string | number;
-  height?: string | number;
-  unit?: string;
-}
-
 export const Loader = styled.div<TLoader>`
-  width: ${({ width = 40, unit = "px" }) => width + unit};
-  height: ${({ height = 40, unit = "px" }) => height + unit};
+  margin: 16px auto;
+  width: ${({ size = 40, unit = "px" }) => size + unit};
+  height: ${({ size = 40, unit = "px" }) => size + unit};
   border: 3px solid rgba(${MAIN_BLUE_RGB}, 0.3);
   border-top-color: ${MAIN_BLUE};
   border-radius: 50%;

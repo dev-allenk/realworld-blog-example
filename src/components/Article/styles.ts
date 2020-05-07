@@ -19,6 +19,17 @@ export const HeaderInnerWrapper = styled(Container)`
   width: 100%;
 `;
 
+export const MetaWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+export const ButtonWrapper = styled.div`
+  padding: 0 8px;
+`;
+
 export const Title = styled.h1`
   margin: 24px 0;
   color: #fff;

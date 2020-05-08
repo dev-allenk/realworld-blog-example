@@ -10,23 +10,30 @@ import {
   GET_SINGLE_REQUEST,
   GET_SINGLE_SUCCESS,
   GET_SINGLE_FAILURE,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  DELETE_FAILURE,
 } from "./actions";
 import { TArticles, TArticle } from "@types";
 
 interface TState {
   isLoading: boolean;
   isCreated: boolean;
+  isDeleting: boolean;
   articles: TArticles;
   articlesCount: number;
   article: TArticle;
+  error: boolean;
 }
 
 const initialState = {
   isLoading: false,
   isCreated: false,
+  isDeleting: false,
   articles: [],
   articlesCount: 0,
   article: {} as TArticle,
+  error: false,
 };
 
 const article = createReducer<TState>(initialState, {
@@ -64,6 +71,15 @@ const article = createReducer<TState>(initialState, {
   },
   [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };
+  },
+  [DELETE_REQUEST]: (state) => {
+    return { ...state, isDeleting: true };
+  },
+  [DELETE_SUCCESS]: (state) => {
+    return { ...state, isDeleting: false, article: {} as TArticle };
+  },
+  [DELETE_FAILURE]: (state) => {
+    return { ...state, isDeleting: false, error: true };
   },
 });
 

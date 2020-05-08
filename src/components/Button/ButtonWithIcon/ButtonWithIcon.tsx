@@ -7,6 +7,7 @@ interface Props {
   pencil?: boolean;
   trashCan?: boolean;
   color?: string;
+  onClick?(): void;
 }
 
 export default function ButtonWithIcon({
@@ -14,11 +15,12 @@ export default function ButtonWithIcon({
   pencil,
   trashCan,
   color,
+  onClick,
   children,
 }: Props & React.HTMLProps<HTMLButtonElement>) {
   const [isHovered, onHover] = useHover();
   return (
-    <S.Button {...onHover} color={color}>
+    <S.Button {...onHover} color={color} onClick={onClick}>
       {gear && <Gear isHovered={isHovered} />}
       {pencil && <Pencil isHovered={isHovered} />}
       {trashCan && <TrashCan isHovered={isHovered} />}

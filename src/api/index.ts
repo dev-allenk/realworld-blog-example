@@ -92,6 +92,9 @@ const articleApi = {
   getSingleArticle(slug: string) {
     return request(GET, `/articles/${slug}`);
   },
+  deleteArticle(slug: string, token: string) {
+    return request(DELETE, `/articles/${slug}`, TOKEN(token));
+  },
 };
 
 export default { ...authApi, ...userApi, ...articleApi, handleResponse };

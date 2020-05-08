@@ -21,7 +21,7 @@ function Header() {
   return (
     <S.Wrapper>
       <Link href={"/"}>
-        <S.Title>Mebium</S.Title>
+        <S.Title>Wedium</S.Title>
       </Link>
       {isLoggedIn ? <LoggedInMenus username={username} /> : <LoggedOutMenus />}
     </S.Wrapper>

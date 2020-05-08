@@ -6,6 +6,8 @@ import { RootState } from "@modules";
 import Loader from "@components/Loader";
 import { ButtonWithIcon } from "@components/Button";
 import { RED_DARK } from "@constants/colors";
+import Link from "next/link";
+import path from "@constants/routingPaths";
 
 export default function ArticleHeader() {
   const { article, isLoading, username } = useSelector(
@@ -31,7 +33,11 @@ export default function ArticleHeader() {
             />
             {isMyArticle && (
               <S.ButtonWrapper>
-                <ButtonWithIcon pencil>Edit Article</ButtonWithIcon>
+                <Link href={path.editor} as={path.editorAs(article.slug)}>
+                  <a>
+                    <ButtonWithIcon pencil>Edit Article</ButtonWithIcon>
+                  </a>
+                </Link>
                 <ButtonWithIcon trashCan color={RED_DARK}>
                   Delete Article
                 </ButtonWithIcon>

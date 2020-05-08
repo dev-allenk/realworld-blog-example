@@ -23,7 +23,7 @@ function Tag({
 }
 
 export default function Tags({
-  tagList,
+  tagList = [],
   onClick,
 }: TagsProps & React.HTMLProps<HTMLButtonElement>) {
   return (

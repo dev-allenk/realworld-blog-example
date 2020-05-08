@@ -14,7 +14,24 @@ import path from "@constants/routingPaths";
 
 interface Action {
   type: string;
-  payload: string;
+  payload: string | string[];
+}
+
+function reducer(tagList: string[], { type, payload }: Action): string[] {
+  if (type === "add") {
+    return [...tagList, payload as string];
+  }
+  if (type === "remove") {
+    return tagList.filter((tag) => tag !== tagList[Number(payload)]);
+  }
+  if (type === "replace") {
+    return payload as string[];
+  }
+  return tagList;
+}
+
+function isDuplicateTag(tagList: string[], tag: string) {
+  return tagList.includes(tag);
 }
 
 const isValid = {
@@ -31,8 +48,9 @@ const isValid = {
 
 export default function Editor() {
   const router = useRouter();
+  const { query } = router;
   const [tagList, dispatchTag] = useReducer(reducer, []);
-  const { inputValue, handleChange } = useInput({});
+  const { inputValue, handleChange, forceChange } = useInput({});
   const { title, description, body, tag } = inputValue;
 
   const memoizedValue = useMemo(() => ({ title, description, body }), [
@@ -48,6 +66,13 @@ export default function Editor() {
   );
 
   useEffect(() => {
+    if (query.slug === "new") return;
+    const { title, description, body, tagList } = article;
+    forceChange({ title, description, body });
+    dispatchTag({ type: "replace", payload: tagList });
+  }, [query]);
+
+  useEffect(() => {
     if (!isCreated) return;
     router.push(path.article, path.articleAs(article.slug));
     dispatch(resetStatus());
@@ -59,7 +84,7 @@ export default function Editor() {
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    handleChange({ name: "tag", value: "" });
+    forceChange({ tag: "" });
 
     if (!tag || isDuplicateTag(tagList, tag)) return;
     dispatchTag({ type: "add", payload: tag });
@@ -70,7 +95,6 @@ export default function Editor() {
   }: React.SyntheticEvent<HTMLButtonElement>) => {
     dispatchTag({ type: "remove", payload: currentTarget.dataset.idx! });
   };
-
   return (
     <>
       {isLoading ? (
@@ -116,18 +140,4 @@ export default function Editor() {
       )}
     </>
   );
-}
-
-function reducer(tagList: string[], { type, payload }: Action) {
-  if (type === "add") {
-    return [...tagList, payload];
-  }
-  if (type === "remove") {
-    return tagList.filter((tag) => tag !== tagList[Number(payload)]);
-  }
-  return tagList;
-}
-
-function isDuplicateTag(tagList: string[], tag: string) {
-  return tagList.includes(tag);
 }

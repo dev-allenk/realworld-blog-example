@@ -84,9 +84,8 @@ function* _deleteArticle(slug: string) {
       slug,
       session.get("user").token
     );
-    const { article } = yield call(api.handleResponse, response);
+    yield call(api.handleResponse, response);
     yield put(deleteArticle.success());
-    return article;
   } catch (error) {
     console.warn(error);
     yield put(deleteArticle.failure());

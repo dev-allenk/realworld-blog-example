@@ -55,8 +55,9 @@ const request = async (method: string, URI: string, options?: object) => {
 };
 
 const handleResponse = async (response: Response) => {
+  if (response.status === 204) return;
   const data = await response.json();
-  console.log(data);
+  console.log("res.body", data);
   if (!response.ok) throw Error(data.errors);
   return data;
 };

@@ -4,16 +4,11 @@ interface Value {
   [index: string]: string;
 }
 
-const createNameValuePair = (obj: Value): { name: string; value: string }[] =>
-  Object.keys(obj).map((key) => ({ name: key, value: obj[key] }));
-
 export default function useInput(initialValue: Value) {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const forceChange = useCallback((obj: Value) => {
-    createNameValuePair(obj).forEach(({ name, value }) =>
-      setInputValue((s) => ({ ...s, [name]: value }))
-    );
+    setInputValue((s) => ({ ...s, ...obj }));
   }, []);
 
   const handleChange = useCallback((event) => {

@@ -10,6 +10,9 @@ import {
   GET_SINGLE_REQUEST,
   GET_SINGLE_SUCCESS,
   GET_SINGLE_FAILURE,
+  UPDATE_REQUEST,
+  UPDATE_SUCCESS,
+  UPDATE_FAILURE,
   DELETE_REQUEST,
   DELETE_SUCCESS,
   DELETE_FAILURE,
@@ -72,6 +75,15 @@ const article = createReducer<TState>(initialState, {
   },
   [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };
+  },
+  [UPDATE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [UPDATE_SUCCESS]: (state, { payload }) => {
+    return { ...state, article: payload, isLoading: false, isCreated: true };
+  },
+  [UPDATE_FAILURE]: (state) => {
+    return { ...state, isLoading: false, isCreated: false };
   },
   [DELETE_REQUEST]: (state) => {
     return { ...state, isLoading: true };

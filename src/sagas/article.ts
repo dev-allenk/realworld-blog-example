@@ -9,6 +9,8 @@ import {
   getSingleArticle,
   DELETE_REQUEST,
   deleteArticle,
+  UPDATE_REQUEST,
+  updateArticle,
 } from "@modules/article";
 import { take, call, put } from "redux-saga/effects";
 import api from "@api";
@@ -77,6 +79,30 @@ export function* getSingleFlow() {
   }
 }
 
+function* _updateArticle(slug: string, articlePayload: TArticlePayload) {
+  try {
+    const response = yield call(
+      api.updateArticle,
+      slug,
+      articlePayload,
+      session.get("user").token
+    );
+    const { article } = yield call(api.handleResponse, response);
+    yield put(updateArticle.success(article));
+    return article;
+  } catch (error) {
+    console.warn(error);
+    yield put(updateArticle.failure());
+  }
+}
+export function* updateFlow() {
+  while (true) {
+    const {
+      payload: { slug, ...article },
+    } = yield take(UPDATE_REQUEST);
+    yield call(_updateArticle, slug, article);
+  }
+}
 function* _deleteArticle(slug: string) {
   try {
     const response = yield call(

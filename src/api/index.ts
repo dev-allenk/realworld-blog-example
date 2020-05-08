@@ -84,6 +84,13 @@ const articleApi = {
   createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
   },
+  updateArticle(slug: string, article: TArticlePayload, token: string) {
+    return request(
+      PUT,
+      `/articles/${slug}`,
+      options(BODY(article), TOKEN(token))
+    );
+  },
   getArticles(query?: TQuery) {
     return request(GET, `/articles${QUERY(query)}`);
   },

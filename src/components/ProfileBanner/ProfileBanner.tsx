@@ -1,28 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import * as S from "./styles";
 import ProfileImage from "@components/ProfileImage";
 import Link from "next/link";
 import path from "@constants/routingPaths";
 import { useRouter } from "next/router";
-
-function EditButton() {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <S.Button
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <S.GearWrapper>
-        <S.Gear isHovered={isHovered} />
-        <S.GearTooth />
-        <S.GearTooth />
-        <S.GearTooth />
-        <S.GearTooth />
-      </S.GearWrapper>
-      Edit Profile Settings
-    </S.Button>
-  );
-}
+import { ButtonWithIcon } from "@components/Button";
 
 export default function ProfileBanner() {
   const {
@@ -35,7 +17,7 @@ export default function ProfileBanner() {
         <S.Username>{author}</S.Username>
         <Link href={path.settings}>
           <S.ButtonWrapper>
-            <EditButton />
+            <ButtonWithIcon gear>Edit Profile Settings</ButtonWithIcon>
           </S.ButtonWrapper>
         </Link>
       </S.BannerInnerWrapper>

@@ -53,6 +53,10 @@ export interface TArticlePayload {
   };
 }
 
+export interface TUpdateArticlePayload extends TArticlePayload {
+  slug: string;
+}
+
 export interface TQuery {
   [idx: string]: string;
 }

@@ -13,5 +13,7 @@ export default function* rootSaga() {
     call(article.createFlow),
     call(article.getFlow),
     call(article.getSingleFlow),
+    call(article.updateFlow),
+    call(article.deleteFlow),
   ]);
 }

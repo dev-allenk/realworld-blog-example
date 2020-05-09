@@ -55,8 +55,9 @@ const request = async (method: string, URI: string, options?: object) => {
 };
 
 const handleResponse = async (response: Response) => {
+  if (response.status === 204) return;
   const data = await response.json();
-  console.log(data);
+  console.log("res.body", data);
   if (!response.ok) throw Error(data.errors);
   return data;
 };
@@ -83,6 +84,13 @@ const articleApi = {
   createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
   },
+  updateArticle(slug: string, article: TArticlePayload, token: string) {
+    return request(
+      PUT,
+      `/articles/${slug}`,
+      options(BODY(article), TOKEN(token))
+    );
+  },
   getArticles(query?: TQuery) {
     return request(GET, `/articles${QUERY(query)}`);
   },
@@ -91,6 +99,9 @@ const articleApi = {
   },
   getSingleArticle(slug: string) {
     return request(GET, `/articles/${slug}`);
+  },
+  deleteArticle(slug: string, token: string) {
+    return request(DELETE, `/articles/${slug}`, TOKEN(token));
   },
 };
 

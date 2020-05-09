@@ -10,23 +10,33 @@ import {
   GET_SINGLE_REQUEST,
   GET_SINGLE_SUCCESS,
   GET_SINGLE_FAILURE,
+  UPDATE_REQUEST,
+  UPDATE_SUCCESS,
+  UPDATE_FAILURE,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  DELETE_FAILURE,
 } from "./actions";
 import { TArticles, TArticle } from "@types";
 
 interface TState {
+  isInitialRendering: boolean;
   isLoading: boolean;
   isCreated: boolean;
   articles: TArticles;
   articlesCount: number;
   article: TArticle;
+  error: boolean;
 }
 
 const initialState = {
+  isInitialRendering: true,
   isLoading: false,
   isCreated: false,
   articles: [],
   articlesCount: 0,
   article: {} as TArticle,
+  error: false,
 };
 
 const article = createReducer<TState>(initialState, {
@@ -45,6 +55,7 @@ const article = createReducer<TState>(initialState, {
       isLoading: false,
       isCreated: false,
       article: {} as TArticle,
+      isInitialRendering: true,
     };
   },
   [GET_REQUEST]: (state) => {
@@ -57,13 +68,41 @@ const article = createReducer<TState>(initialState, {
     return { ...state, isLoading: false };
   },
   [GET_SINGLE_REQUEST]: (state) => {
-    return { ...state, isLoading: true };
+    return { ...state, isLoading: true, isInitialRendering: true };
   },
   [GET_SINGLE_SUCCESS]: (state, { payload }) => {
     return { ...state, article: payload, isLoading: false };
   },
   [GET_SINGLE_FAILURE]: (state) => {
     return { ...state, isLoading: false };
+  },
+  [UPDATE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [UPDATE_SUCCESS]: (state, { payload }) => {
+    return { ...state, article: payload, isLoading: false, isCreated: true };
+  },
+  [UPDATE_FAILURE]: (state) => {
+    return { ...state, isLoading: false, isCreated: false };
+  },
+  [DELETE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [DELETE_SUCCESS]: (state) => {
+    return {
+      ...state,
+      isLoading: false,
+      article: {} as TArticle,
+      isInitialRendering: false,
+    };
+  },
+  [DELETE_FAILURE]: (state) => {
+    return {
+      ...state,
+      isLoading: false,
+      error: true,
+      isInitialRendering: false,
+    };
   },
 });
 

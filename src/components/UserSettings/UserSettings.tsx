@@ -18,7 +18,7 @@ const initialValues = {
 };
 
 export default function UserSettings() {
-  const { inputValue, handleChange, setInputValue } = useInput(initialValues);
+  const { inputValue, handleChange, forceChange } = useInput(initialValues);
   const { image, username, bio, email, password } = inputValue;
 
   const { isLoggedIn, user } = useSelector((state: RootState) => ({
@@ -41,7 +41,7 @@ export default function UserSettings() {
   }, []);
 
   useEffect(() => {
-    setInputValue({
+    forceChange({
       image: user.image,
       username: user.username,
       bio: user.bio,

@@ -7,8 +7,12 @@ interface Value {
 export default function useInput(initialValue: Value) {
   const [inputValue, setInputValue] = useState(initialValue);
 
+  const forceChange = useCallback((obj: Value) => {
+    setInputValue((s) => ({ ...s, ...obj }));
+  }, []);
+
   const handleChange = useCallback((event) => {
-    const { name, value } = event.target ? event.target : event;
+    const { name, value } = event.target;
     setInputValue((inputValue) => ({ ...inputValue, [name]: value }));
   }, []);
 
@@ -16,5 +20,5 @@ export default function useInput(initialValue: Value) {
     setInputValue({ ...inputValue, [name]: "" });
   }, []);
 
-  return { inputValue, setInputValue, handleChange, restore };
+  return { inputValue, handleChange, restore, forceChange };
 }

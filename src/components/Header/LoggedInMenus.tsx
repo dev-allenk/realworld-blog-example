@@ -6,7 +6,7 @@ import path from "@constants/routingPaths";
 export default function LoggedInMenus({ username }: { username: string }) {
   return (
     <S.LinkWrapper>
-      <Link href={path.newArticle}>
+      <Link href={path.editor} as={path.editorAs("new")}>
         <S.Link>New Article</S.Link>
       </Link>
       <Link href={path.settings}>

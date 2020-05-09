@@ -5,16 +5,34 @@ import useInput from "@hooks/useInput";
 import Tags from "./Tags";
 import useValidation from "@hooks/useValidation";
 import { useDispatch, useSelector } from "react-redux";
-import { createRequest, resetStatus } from "@modules/article";
+import { createRequest, resetStatus, updateArticle } from "@modules/article";
 import { useRouter } from "next/router";
 import { RootState } from "@modules";
 import Loader from "@components/Loader";
 import Modal from "@components/Modal";
 import path from "@constants/routingPaths";
+import { ParsedUrlQuery } from "querystring";
 
 interface Action {
   type: string;
-  payload: string;
+  payload: string | string[];
+}
+
+function reducer(tagList: string[], { type, payload }: Action): string[] {
+  if (type === "add") {
+    return [...tagList, payload as string];
+  }
+  if (type === "remove") {
+    return tagList.filter((tag) => tag !== tagList[Number(payload)]);
+  }
+  if (type === "replace") {
+    return payload as string[];
+  }
+  return tagList;
+}
+
+function isDuplicateTag(tagList: string[], tag: string) {
+  return tagList.includes(tag);
 }
 
 const isValid = {
@@ -31,8 +49,10 @@ const isValid = {
 
 export default function Editor() {
   const router = useRouter();
+  const { query } = router;
+  const isEditPage = (query: ParsedUrlQuery) => query.slug !== "new";
   const [tagList, dispatchTag] = useReducer(reducer, []);
-  const { inputValue, handleChange } = useInput({});
+  const { inputValue, handleChange, forceChange } = useInput({});
   const { title, description, body, tag } = inputValue;
 
   const memoizedValue = useMemo(() => ({ title, description, body }), [
@@ -48,18 +68,35 @@ export default function Editor() {
   );
 
   useEffect(() => {
+    if (!isEditPage(query)) return;
+    const { title, description, body, tagList } = article;
+    forceChange({ title, description, body });
+    dispatchTag({ type: "replace", payload: tagList });
+  }, [query]);
+
+  useEffect(() => {
     if (!isCreated) return;
+    console.log("created");
     router.push(path.article, path.articleAs(article.slug));
     dispatch(resetStatus());
   }, [isCreated]);
 
   const submit = () => {
-    dispatch(createRequest({ article: { title, description, body, tagList } }));
+    isEditPage(query)
+      ? dispatch(
+          updateArticle.request({
+            slug: query.slug as string,
+            article: { title, description, body, tagList },
+          })
+        )
+      : dispatch(
+          createRequest({ article: { title, description, body, tagList } })
+        );
   };
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    handleChange({ name: "tag", value: "" });
+    forceChange({ tag: "" });
 
     if (!tag || isDuplicateTag(tagList, tag)) return;
     dispatchTag({ type: "add", payload: tag });
@@ -70,7 +107,6 @@ export default function Editor() {
   }: React.SyntheticEvent<HTMLButtonElement>) => {
     dispatchTag({ type: "remove", payload: currentTarget.dataset.idx! });
   };
-
   return (
     <>
       {isLoading ? (
@@ -106,7 +142,7 @@ export default function Editor() {
             onChange={handleChange}
             onKeyDown={addTag}
             placeholder="Enter tags"
-            isValid={true}
+            isValid={true} //TODO: styled-components 내부에서 디폴트값 설정.
           />
           <Tags tagList={tagList} onClick={removeTag} />
           <Button type="button" disabled={!isAllValid()} onClick={submit}>
@@ -116,18 +152,4 @@ export default function Editor() {
       )}
     </>
   );
-}
-
-function reducer(tagList: string[], { type, payload }: Action) {
-  if (type === "add") {
-    return [...tagList, payload];
-  }
-  if (type === "remove") {
-    return tagList.filter((tag) => tag !== tagList[Number(payload)]);
-  }
-  return tagList;
-}
-
-function isDuplicateTag(tagList: string[], tag: string) {
-  return tagList.includes(tag);
 }

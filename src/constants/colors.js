@@ -5,6 +5,7 @@ export const MAIN_BLUE_DARK = "#2c5ae9";
 
 export const GREEN = "#35d48d";
 export const RED = "#ff5d5d";
+export const RED_DARK = "#f24147";
 
 export const GREY_1 = "#f1f5f5";
 export const GREY_2 = "#eaeeef";

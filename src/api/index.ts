@@ -5,6 +5,7 @@ import {
   TArticlePayload,
   TQuery,
 } from "@types";
+import fetch from "isomorphic-unfetch";
 
 const API_ENDPOINT =
   process.env.NODE_ENV === "development"

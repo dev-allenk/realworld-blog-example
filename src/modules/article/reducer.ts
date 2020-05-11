@@ -16,6 +16,7 @@ import {
   DELETE_REQUEST,
   DELETE_SUCCESS,
   DELETE_FAILURE,
+  SET_ARTICLE,
 } from "./actions";
 import { TArticles, TArticle } from "@types";
 
@@ -102,6 +103,12 @@ const article = createReducer<TState>(initialState, {
       isLoading: false,
       error: true,
       isInitialRendering: false,
+    };
+  },
+  [SET_ARTICLE]: (state, action) => {
+    return {
+      ...state,
+      article: action.payload,
     };
   },
 });

@@ -14,6 +14,7 @@ export default function Main() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (article.body) return;
     dispatch(getSingleArticle.request(slug));
     return () => {
       dispatch(resetStatus());

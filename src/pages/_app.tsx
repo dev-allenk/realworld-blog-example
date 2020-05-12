@@ -2,11 +2,8 @@ import React from "react";
 import { createGlobalStyle } from "styled-components";
 import Header from "@components/Header";
 
-import withRedux, { ReduxWrapperAppProps } from "next-redux-wrapper";
-import App, { AppContext } from "next/app";
-import { Provider } from "react-redux";
-import { makeStore } from "../store";
-import { RootState } from "@modules";
+import App, { AppInitialProps } from "next/app";
+import { wrapper } from "../store";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -14,22 +11,17 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'NanumSquare', sans-serif !important;
   }`;
 
-class MyApp extends App<ReduxWrapperAppProps<RootState>> {
-  static async getInitialProps({ Component, ctx }: AppContext) {
-    const pageProps = (await Component.getInitialProps?.(ctx)) || {};
-    return { pageProps };
-  }
-
+class MyApp extends App<AppInitialProps> {
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps } = this.props;
     return (
-      <Provider store={store}>
+      <>
         <GlobalStyle />
         <Header />
         <Component {...pageProps} />
-      </Provider>
+      </>
     );
   }
 }
 
-export default withRedux(makeStore)(MyApp);
+export default wrapper.withRedux(MyApp);

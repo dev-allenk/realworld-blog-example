@@ -23,6 +23,7 @@ export const DELETE_REQUEST = "article/DELETE_REQUEST" as const;
 export const DELETE_SUCCESS = "article/DELETE_SUCCESS" as const;
 export const DELETE_FAILURE = "article/DELETE_FAILURE" as const;
 export const RESET_STATUS = "article/RESET_STATUS" as const;
+export const SET_ARTICLE = "article/SET_ARTICLE" as const;
 
 export const createRequest = createAction(CREATE_REQUEST)<TArticlePayload>();
 export const createSuccess = createAction(CREATE_SUCCESS)<TArticle>();
@@ -31,6 +32,7 @@ export const getRequest = createAction(GET_REQUEST)<TGetArticlesPayload>();
 export const getSuccess = createAction(GET_SUCCESS)<TMultipleArticles>();
 export const getFailure = createAction(GET_FAILURE)();
 export const resetStatus = createAction(RESET_STATUS)();
+export const setArticle = createAction(SET_ARTICLE)<TArticle>();
 
 export const getSingleArticle = createAsyncAction(
   GET_SINGLE_REQUEST,

@@ -76,7 +76,6 @@ export default function Editor() {
 
   useEffect(() => {
     if (!isCreated) return;
-    console.log("created");
     router.push(path.article, path.articleAs(article.slug));
     dispatch(resetStatus());
   }, [isCreated]);
@@ -96,7 +95,7 @@ export default function Editor() {
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    forceChange({ tag: "" });
+    forceChange({ tag: "" }); // 중복 태그인 경우 입력창을 비우기 위해 아래 조건문 이전에 리셋.
 
     if (!tag || isDuplicateTag(tagList, tag)) return;
     dispatchTag({ type: "add", payload: tag });
@@ -140,7 +139,7 @@ export default function Editor() {
             name="tag"
             value={tag}
             onChange={handleChange}
-            onKeyDown={addTag}
+            onKeyPress={addTag}
             placeholder="Enter tags"
             isValid={true} //TODO: styled-components 내부에서 디폴트값 설정.
           />

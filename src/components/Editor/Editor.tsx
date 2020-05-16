@@ -76,7 +76,6 @@ export default function Editor() {
 
   useEffect(() => {
     if (!isCreated) return;
-    console.log("created");
     router.push(path.article, path.articleAs(article.slug));
     dispatch(resetStatus());
   }, [isCreated]);

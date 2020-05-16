@@ -139,7 +139,7 @@ export default function Editor() {
             name="tag"
             value={tag}
             onChange={handleChange}
-            onKeyDown={addTag}
+            onKeyPress={addTag}
             placeholder="Enter tags"
             isValid={true} //TODO: styled-components 내부에서 디폴트값 설정.
           />

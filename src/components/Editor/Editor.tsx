@@ -95,7 +95,7 @@ export default function Editor() {
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    forceChange({ tag: "" });
+    forceChange({ tag: "" }); // 중복 태그인 경우 입력창을 비우기 위해 아래 조건문 이전에 리셋.
 
     if (!tag || isDuplicateTag(tagList, tag)) return;
     dispatchTag({ type: "add", payload: tag });

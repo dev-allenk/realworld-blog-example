@@ -109,7 +109,7 @@ const article = createReducer<TState>(initialState, {
     };
   },
   [FAVORITE_REQUEST]: (state) => {
-    return { ...state, isLoading: true };
+    return { ...state };
   },
   [FAVORITE_SUCCESS]: (state) => {
     return { ...state, isLoading: false };

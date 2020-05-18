@@ -22,6 +22,9 @@ export const UPDATE_FAILURE = "article/UPDATE_FAILURE" as const;
 export const DELETE_REQUEST = "article/DELETE_REQUEST" as const;
 export const DELETE_SUCCESS = "article/DELETE_SUCCESS" as const;
 export const DELETE_FAILURE = "article/DELETE_FAILURE" as const;
+export const FAVORITE_REQUEST = "article/FAVORITE_REQUEST" as const;
+export const FAVORITE_SUCCESS = "article/FAVORITE_SUCCESS" as const;
+export const FAVORITE_FAILURE = "article/FAVORITE_FAILURE" as const;
 export const RESET_STATUS = "article/RESET_STATUS" as const;
 export const SET_ARTICLE = "article/SET_ARTICLE" as const;
 
@@ -51,3 +54,9 @@ export const deleteArticle = createAsyncAction(
   DELETE_SUCCESS,
   DELETE_FAILURE
 )<string, undefined, undefined>();
+
+export const favoriteArticle = createAsyncAction(
+  FAVORITE_REQUEST,
+  FAVORITE_SUCCESS,
+  FAVORITE_FAILURE
+)<string, TArticle, undefined>();

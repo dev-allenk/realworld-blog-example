@@ -16,6 +16,9 @@ import {
   DELETE_REQUEST,
   DELETE_SUCCESS,
   DELETE_FAILURE,
+  FAVORITE_REQUEST,
+  FAVORITE_SUCCESS,
+  FAVORITE_FAILURE,
   SET_ARTICLE,
 } from "./actions";
 import { TArticles, TArticle } from "@types";
@@ -105,11 +108,17 @@ const article = createReducer<TState>(initialState, {
       isInitialRendering: false,
     };
   },
+  [FAVORITE_REQUEST]: (state) => {
+    return { ...state, isLoading: true };
+  },
+  [FAVORITE_SUCCESS]: (state) => {
+    return { ...state, isLoading: false };
+  },
+  [FAVORITE_FAILURE]: (state) => {
+    return { ...state, isLoading: false, error: true };
+  },
   [SET_ARTICLE]: (state, action) => {
-    return {
-      ...state,
-      article: action.payload,
-    };
+    return { ...state, article: action.payload };
   },
 });
 

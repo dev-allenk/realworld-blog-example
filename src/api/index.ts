@@ -104,6 +104,9 @@ const articleApi = {
   deleteArticle(slug: string, token: string) {
     return request(DELETE, `/articles/${slug}`, TOKEN(token));
   },
+  favoriteArticle(slug: string, token: string) {
+    return request(POST, `/articles/${slug}/favorite`, TOKEN(token));
+  },
 };
 
 export default { ...authApi, ...userApi, ...articleApi, handleResponse };

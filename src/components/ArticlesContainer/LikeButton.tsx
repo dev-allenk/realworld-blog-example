@@ -18,10 +18,13 @@ export default function LikeButton({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      favorited={favorited}
       isHovered={isHovered}
     >
-      <S.Heart isHovered={isHovered}></S.Heart>
-      <S.Span isHovered={isHovered}>{favoritesCount}</S.Span>
+      <S.Heart isHovered={isHovered} favorited={favorited}></S.Heart>
+      <S.Span isHovered={isHovered} favorited={favorited}>
+        {favoritesCount}
+      </S.Span>
     </S.Button>
   );
 }

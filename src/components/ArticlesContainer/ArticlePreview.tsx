@@ -5,8 +5,9 @@ import { TArticle } from "@types";
 import AuthorMeta from "@components/AuthorMeta";
 import path from "@constants/routingPaths";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { favoriteArticle } from "@modules/article";
+import { RootState } from "@modules";
 
 interface TFavoriteState {
   viewerHasFavorited: boolean;
@@ -40,10 +41,11 @@ export default function ArticlePreview(props: TArticle) {
     count: favoritesCount,
   });
 
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
   const updateFavorite = () => {
-    //TODO: 비로그인 시 로그인 필요하다는 toast ui 띄우기
+    if (!isLoggedIn) return alert("로그인이 필요합니다."); //TODO: toast ui로 교체
     setFavorite(update);
     dispatch(favoriteArticle.request(slug));
   };

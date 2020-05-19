@@ -109,13 +109,13 @@ const article = createReducer<TState>(initialState, {
     };
   },
   [FAVORITE_REQUEST]: (state) => {
-    return { ...state };
+    return state;
   },
   [FAVORITE_SUCCESS]: (state) => {
-    return { ...state, isLoading: false };
+    return state;
   },
   [FAVORITE_FAILURE]: (state) => {
-    return { ...state, isLoading: false, error: true };
+    return { ...state, error: true };
   },
   [SET_ARTICLE]: (state, action) => {
     return { ...state, article: action.payload };

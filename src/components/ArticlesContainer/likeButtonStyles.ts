@@ -1,24 +1,29 @@
 import styled from "styled-components";
 import { MAIN_BLUE } from "@constants/colors";
 
-interface THovered {
+interface TButton {
   isHovered?: boolean;
+  favorited?: boolean;
 }
 
-export const Button = styled.button<THovered>`
+export const Button = styled.button<TButton>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 12px 0 16px;
-  border: 1px solid ${({ isHovered }) => (isHovered ? "none" : MAIN_BLUE)};
+  border: 1px solid
+    ${({ favorited, isHovered }) =>
+      favorited || isHovered ? "none" : MAIN_BLUE};
   border-radius: 5px;
-  background-color: ${({ isHovered }) => (isHovered ? MAIN_BLUE : "#fff")};
+  background-color: ${({ favorited, isHovered }) =>
+    favorited || isHovered ? MAIN_BLUE : "#fff"};
 `;
 
-export const Heart = styled.div<THovered>`
+export const Heart = styled.div<TButton>`
   width: 8px;
   height: 8px;
-  background-color: ${({ isHovered }) => (isHovered ? "#fff" : MAIN_BLUE)};
+  background-color: ${({ favorited, isHovered }) =>
+    favorited || isHovered ? "#fff" : MAIN_BLUE};
   transform: rotate(-45deg);
   &::before,
   &::after {
@@ -26,7 +31,8 @@ export const Heart = styled.div<THovered>`
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: ${({ isHovered }) => (isHovered ? "#fff" : MAIN_BLUE)};
+    background-color: ${({ favorited, isHovered }) =>
+      favorited || isHovered ? "#fff" : MAIN_BLUE};
     border-radius: 50%;
   }
   &::before {
@@ -35,7 +41,8 @@ export const Heart = styled.div<THovered>`
   }
 `;
 
-export const Span = styled.span<THovered>`
+export const Span = styled.span<TButton>`
   margin-left: 8px;
-  color: ${({ isHovered }) => (isHovered ? "#fff" : MAIN_BLUE)};
+  color: ${({ favorited, isHovered }) =>
+    favorited || isHovered ? "#fff" : MAIN_BLUE};
 `;

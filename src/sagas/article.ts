@@ -11,6 +11,8 @@ import {
   deleteArticle,
   UPDATE_REQUEST,
   updateArticle,
+  FAVORITE_REQUEST,
+  favoriteArticle,
 } from "@modules/article";
 import { take, call, put } from "redux-saga/effects";
 import api from "@api";
@@ -121,5 +123,26 @@ export function* deleteFlow() {
   while (true) {
     const { payload }: { payload: string } = yield take(DELETE_REQUEST);
     yield call(_deleteArticle, payload);
+  }
+}
+
+function* _favoriteArticle(slug: string) {
+  try {
+    const response = yield call(
+      api.favoriteArticle,
+      slug,
+      session.get("user").token
+    );
+    const { article } = yield call(api.handleResponse, response);
+    yield put(favoriteArticle.success(article));
+  } catch (error) {
+    console.warn(error);
+    yield put(favoriteArticle.failure());
+  }
+}
+export function* favoriteFlow() {
+  while (true) {
+    const { payload }: { payload: string } = yield take(FAVORITE_REQUEST);
+    yield call(_favoriteArticle, payload);
   }
 }

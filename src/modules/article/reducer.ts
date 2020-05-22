@@ -22,8 +22,9 @@ import {
   SET_ARTICLE,
 } from "./actions";
 import { TArticles, TArticle } from "@types";
+import { HYDRATE } from "next-redux-wrapper";
 
-interface TState {
+export interface TState {
   isInitialRendering: boolean;
   isLoading: boolean;
   isCreated: boolean;
@@ -119,6 +120,9 @@ const article = createReducer<TState>(initialState, {
   },
   [SET_ARTICLE]: (state, action) => {
     return { ...state, article: action.payload };
+  },
+  [HYDRATE]: (state, action) => {
+    return { ...action.payload.article };
   },
 });
 

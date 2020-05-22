@@ -6,6 +6,12 @@ import {
   TUpdateArticlePayload,
 } from "@types";
 import { createAction, createAsyncAction } from "typesafe-actions";
+import { HYDRATE } from "next-redux-wrapper";
+import { TState } from "./reducer";
+
+interface THydrate {
+  article: TState;
+}
 
 export const CREATE_REQUEST = "article/CREATE_REQUEST" as const;
 export const CREATE_SUCCESS = "article/CREATE_SUCCESS" as const;
@@ -28,6 +34,7 @@ export const FAVORITE_FAILURE = "article/FAVORITE_FAILURE" as const;
 export const RESET_STATUS = "article/RESET_STATUS" as const;
 export const SET_ARTICLE = "article/SET_ARTICLE" as const;
 
+export const hydrateStore = createAction(HYDRATE)<THydrate>();
 export const createRequest = createAction(CREATE_REQUEST)<TArticlePayload>();
 export const createSuccess = createAction(CREATE_SUCCESS)<TArticle>();
 export const createFailure = createAction(CREATE_FAILURE)();

@@ -1,20 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Article from "@components/Article";
 import { TArticle } from "@types";
 import api from "@api";
-import { GetStaticPaths, NextPage } from "next";
+import { GetStaticPaths } from "next";
 import { wrapper } from "src/store";
-import { useDispatch } from "react-redux";
-import { setArticle } from "@modules/article";
+import { getSingleArticle } from "@modules/article";
+import { END } from "redux-saga";
 
-interface Props {
-  [idx: string]: any;
-  article: TArticle;
-}
-
-const ArticlePage: NextPage<Props> = (props: Props) => {
-  const dispatch = useDispatch();
-  useMemo(() => dispatch(setArticle(props.article)), [props]);
+const ArticlePage = () => {
   return (
     <>
       <Article.Header />
@@ -37,23 +30,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getArticleSlugs();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
-async function getArticleData(slug: string) {
-  const res = await api.getSingleArticle(slug);
-  const { article } = await res.json();
-  return article;
-}
-
 export const getStaticProps = wrapper.getStaticProps(
-  async ({ params }: any) => {
-    const article = await getArticleData(params?.slug as string);
-    return {
-      props: {
-        article,
-      },
-    };
+  async ({ store, params }) => {
+    store.dispatch(getSingleArticle.request(params?.slug as string));
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
   }
 );

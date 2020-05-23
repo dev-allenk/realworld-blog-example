@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { ButtonWithIcon } from "@components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@modules";
-import { getProfile } from "@modules/profile";
+import { getProfile, resetProfile } from "@modules/profile";
 
 export default function ProfileBanner() {
   const {
@@ -19,6 +19,9 @@ export default function ProfileBanner() {
 
   useEffect(() => {
     dispatch(getProfile.request(author as string));
+    return () => {
+      dispatch(resetProfile());
+    };
   }, [author]);
 
   return (

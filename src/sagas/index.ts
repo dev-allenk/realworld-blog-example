@@ -2,6 +2,7 @@ import { all, call } from "redux-saga/effects";
 import * as auth from "./auth";
 import * as user from "./user";
 import * as article from "./article";
+import * as profile from "./profile";
 
 export default function* rootSaga() {
   yield all([
@@ -16,5 +17,6 @@ export default function* rootSaga() {
     call(article.updateFlow),
     call(article.deleteFlow),
     call(article.favoriteFlow),
+    call(profile.getFlow),
   ]);
 }

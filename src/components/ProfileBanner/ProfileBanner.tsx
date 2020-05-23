@@ -15,6 +15,7 @@ export default function ProfileBanner() {
   } = useRouter();
 
   const profile = useSelector((state: RootState) => state.profile);
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,16 +25,20 @@ export default function ProfileBanner() {
     };
   }, [author]);
 
+  const isMyProfile = () => profile.username === auth.username;
+
   return (
     <S.Banner>
       <S.BannerInnerWrapper>
         <ProfileImage large src={profile.image} />
         <S.Username>{author}</S.Username>
-        <Link href={path.settings}>
-          <S.ButtonWrapper>
-            <ButtonWithIcon gear>Edit Profile Settings</ButtonWithIcon>
-          </S.ButtonWrapper>
-        </Link>
+        {isMyProfile() && (
+          <Link href={path.settings}>
+            <S.ButtonWrapper>
+              <ButtonWithIcon gear>Edit Profile Settings</ButtonWithIcon>
+            </S.ButtonWrapper>
+          </Link>
+        )}
       </S.BannerInnerWrapper>
     </S.Banner>
   );

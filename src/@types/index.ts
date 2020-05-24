@@ -29,6 +29,13 @@ export interface TMultipleArticles {
   articlesCount: number;
 }
 
+export interface TProfile {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+}
+
 export interface RegisterPayload {
   user: { username: string; email: string; password: string };
 }

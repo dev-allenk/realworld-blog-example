@@ -81,6 +81,12 @@ const userApi = {
   },
 };
 
+const profileApi = {
+  getProfile(username: string, token: string = "") {
+    return request(GET, `/profiles/${username}`, TOKEN(token));
+  },
+};
+
 const articleApi = {
   createArticle(article: TArticlePayload, token: string) {
     return request(POST, "/articles", options(BODY(article), TOKEN(token)));
@@ -109,4 +115,10 @@ const articleApi = {
   },
 };
 
-export default { ...authApi, ...userApi, ...articleApi, handleResponse };
+export default {
+  ...authApi,
+  ...userApi,
+  ...profileApi,
+  ...articleApi,
+  handleResponse,
+};

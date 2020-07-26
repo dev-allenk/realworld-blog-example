@@ -13,11 +13,18 @@ import Modal from "@components/Modal";
 const REGISTER_VALUES = { username: "", email: "", password: "" };
 const LOGIN_VALUES = { email: "", password: "" };
 
+interface Values {
+  [idx: string]: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 const USERNAME_REGEXP = /^[A-Za-z0-9_-]{4,15}$/;
 const PASSWORD_REGEXP = /^[A-Za-z0-9]{8,20}$/;
 const EMAIL_REGEXP = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*.[a-zA-Z]{2,3}$/;
 
-const isValid = {
+const validConditions = {
   username(username: string) {
     return USERNAME_REGEXP.test(username) && !/\s/.test(username);
   },
@@ -38,11 +45,11 @@ export default function LoginForm() {
   const dispatch = useDispatch();
 
   const { inputValue, handleChange } = useInput(
-    isLoginPage ? LOGIN_VALUES : REGISTER_VALUES
+    isLoginPage ? (LOGIN_VALUES as Values) : REGISTER_VALUES
   );
   const { username, email, password } = inputValue;
 
-  const [status, isAllValid] = useValidation(inputValue, isValid);
+  const [status, isAllValid] = useValidation(inputValue, validConditions);
 
   const request = () => {
     return isLoginPage

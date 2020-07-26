@@ -4,10 +4,10 @@ interface Value {
   [index: string]: string;
 }
 
-export default function useInput(initialValue: Value) {
+export default function useInput<T extends Value>(initialValue: T) {
   const [inputValue, setInputValue] = useState(initialValue);
 
-  const forceChange = useCallback((obj: Value) => {
+  const forceChange = useCallback((obj: T) => {
     setInputValue((s) => ({ ...s, ...obj }));
   }, []);
 
